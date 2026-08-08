@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Laporan Keuangan — SMART MIND</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-text"><h5>SMART MIND</h5><span>Bimbingan Belajar</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Utama</div>
+    <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <div class="nav-section-title">Akademik</div>
+    <a href="siswa.html"    class="sidebar-link"><span class="icon">👨‍🎓</span> Siswa</a>
+    <a href="tutor.html"    class="sidebar-link"><span class="icon">👨‍🏫</span> Tutor</a>
+    <a href="jadwal.html"   class="sidebar-link"><span class="icon">📅</span> Jadwal</a>
+    <a href="absensi.html"  class="sidebar-link"><span class="icon">✅</span> Absensi</a>
+    <div class="nav-section-title">Keuangan</div>
+    <a href="pembayaran.html" class="sidebar-link"><span class="icon">💳</span> Pembayaran<span class="badge-count">3</span></a>
+    <a href="gaji.html"     class="sidebar-link"><span class="icon">💰</span> Gaji Tutor</a>
+    <a href="keuangan.html" class="sidebar-link active"><span class="icon">📊</span> Laporan Keuangan</a>
+    <div class="nav-section-title">Lainnya</div>
+    <a href="index.html"    class="sidebar-link"><span class="icon">🌐</span> Landing Page</a>
+    <a href="login.html"    class="sidebar-link"><span class="icon">🚪</span> Logout</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar">A</div>
+      <div class="user-info"><strong>Administrator</strong><small>admin@smartmind.id</small></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-content">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="btn-icon" id="openSidebar">☰</div>
+      <div class="topbar-title"><h4>Laporan Keuangan</h4><p>Rekap pemasukan, pengeluaran & laba bersih</p></div>
+    </div>
+    <div class="topbar-right">
+      <div class="btn-icon" id="darkModeToggle">🌙</div>
+      <a href="login.html" class="btn-icon">🚪</a>
+    </div>
+  </div>
+  <div class="page-content">
+
+    <!-- TAB PERIODE -->
+    <div style="display:flex;gap:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:5px;width:fit-content;margin-bottom:24px;">
+      <button class="period-btn" id="btnHarian"  onclick="setPeriode('harian')"
+        style="padding:9px 24px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:var(--primary);color:#fff;transition:all .2s;">
+        📅 Harian
+      </button>
+      <button class="period-btn" id="btnBulanan" onclick="setPeriode('bulanan')"
+        style="padding:9px 24px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .2s;">
+        📆 Bulanan
+      </button>
+      <button class="period-btn" id="btnTahunan" onclick="setPeriode('tahunan')"
+        style="padding:9px 24px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .2s;">
+        🗓️ Tahunan
+      </button>
+    </div>
+
+    <!-- FILTER ROW -->
+    <div class="card-sm mb-4">
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <div id="filterHarian">
+          <label class="form-label mb-1" style="font-size:12px;">Tanggal</label>
+          <input type="date" class="form-control" style="width:auto;font-size:13px;" id="inputTanggal"/>
+        </div>
+        <div id="filterBulanan" style="display:none;">
+          <label class="form-label mb-1" style="font-size:12px;">Bulan</label>
+          <select class="form-select" style="width:auto;font-size:13px;">
+            <option>Juni 2024</option><option>Mei 2024</option><option>April 2024</option>
+            <option>Maret 2024</option><option>Februari 2024</option><option>Januari 2024</option>
+          </select>
+        </div>
+        <div id="filterTahunan" style="display:none;">
+          <label class="form-label mb-1" style="font-size:12px;">Tahun</label>
+          <select class="form-select" style="width:auto;font-size:13px;">
+            <option>2024</option><option>2023</option><option>2022</option>
+          </select>
+        </div>
+        <div style="margin-top:18px;display:flex;gap:8px;">
+          <button class="btn-primary-sm btn-export-excel">📥 Excel</button>
+          <button class="btn-primary-sm btn-export-pdf" style="background:#EF4444;">📄 PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon green">📈</div>
+          <div class="stat-info">
+            <h6>Total Pemasukan</h6>
+            <h3 id="statPemasukan" style="font-size:20px;">Rp 12,5Jt</h3>
+            <small>↑ 8% vs periode lalu</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon red">📉</div>
+          <div class="stat-info">
+            <h6>Total Pengeluaran</h6>
+            <h3 id="statPengeluaran" style="font-size:20px;">Rp 6,5Jt</h3>
+            <small style="color:var(--danger);">↑ 3%</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon blue">💎</div>
+          <div class="stat-info">
+            <h6>Laba Bersih</h6>
+            <h3 id="statLaba" style="font-size:20px;">Rp 6,0Jt</h3>
+            <small>↑ 12%</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon yellow">📊</div>
+          <div class="stat-info">
+            <h6>Margin Keuntungan</h6>
+            <h3 id="statMargin" style="font-size:20px;">48%</h3>
+            <small>dari total pemasukan</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART ROW -->
+    <div class="row g-3 mb-4">
+      <div class="col-lg-8">
+        <div class="chart-container">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h6 style="font-weight:700;margin:0;">📈 Grafik Pemasukan vs Pengeluaran</h6>
+            <div class="d-flex gap-3">
+              <div class="legend-item"><span class="legend-dot" style="background:#1565C0;"></span> Pemasukan</div>
+              <div class="legend-item"><span class="legend-dot" style="background:#EF4444;"></span> Pengeluaran</div>
+            </div>
+          </div>
+          <div style="height:280px;"><canvas id="chartPemasukan"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="chart-container h-100">
+          <h6 style="font-weight:700;margin-bottom:16px;">🥧 Komposisi Pengeluaran</h6>
+          <div style="height:200px;"><canvas id="chartKomposisi"></canvas></div>
+          <div class="d-flex flex-column gap-2 mt-3">
+            <div class="legend-item"><span class="legend-dot" style="background:#FFC107;"></span> Gaji Tutor: <strong>Rp 5.000.000</strong></div>
+            <div class="legend-item"><span class="legend-dot" style="background:#EF4444;"></span> Operasional: <strong>Rp 1.000.000</strong></div>
+            <div class="legend-item"><span class="legend-dot" style="background:#8B5CF6;"></span> Lain-lain: <strong>Rp 500.000</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABEL TRANSAKSI -->
+    <div class="row g-3">
+      <!-- PEMASUKAN -->
+      <div class="col-lg-6">
+        <div class="table-card">
+          <div class="table-header">
+            <h5>📥 Rincian Pemasukan</h5>
+            <button class="btn-primary-sm" onclick="openModal('modalTambahTransaksi','masuk')" style="background:var(--success);font-size:12px;padding:6px 14px;">+ Tambah</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead><tr><th>Tanggal</th><th>Keterangan</th><th>Nominal</th></tr></thead>
+              <tbody id="tabelPemasukan">
+                <tr><td>01 Jun</td><td>Pembayaran SPP Batch 1</td><td style="color:var(--success);font-weight:700;">+Rp 4.250.000</td></tr>
+                <tr><td>05 Jun</td><td>Pembayaran SPP Batch 2</td><td style="color:var(--success);font-weight:700;">+Rp 3.850.000</td></tr>
+                <tr><td>10 Jun</td><td>Pembayaran SPP Batch 3</td><td style="color:var(--success);font-weight:700;">+Rp 2.600.000</td></tr>
+                <tr><td>15 Jun</td><td>Pembayaran SPP Batch 4</td><td style="color:var(--success);font-weight:700;">+Rp 1.800.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;">
+            <span style="font-size:13px;color:var(--text-muted);">Total Pemasukan</span>
+            <strong style="color:var(--success);">Rp 12.500.000</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- PENGELUARAN -->
+      <div class="col-lg-6">
+        <div class="table-card">
+          <div class="table-header">
+            <h5>📤 Rincian Pengeluaran</h5>
+            <button class="btn-primary-sm" onclick="openModal('modalTambahTransaksi','keluar')" style="background:#EF4444;font-size:12px;padding:6px 14px;">+ Tambah</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead><tr><th>Tanggal</th><th>Keterangan</th><th>Nominal</th></tr></thead>
+              <tbody id="tabelPengeluaran">
+                <tr><td>25 Jun</td><td>Gaji Tutor — Sari Dewi</td><td style="color:var(--danger);font-weight:700;">-Rp 770.000</td></tr>
+                <tr><td>25 Jun</td><td>Gaji Tutor — Doni Pratama</td><td style="color:var(--danger);font-weight:700;">-Rp 800.000</td></tr>
+                <tr><td>25 Jun</td><td>Gaji Tutor — Rina Safitri</td><td style="color:var(--danger);font-weight:700;">-Rp 665.000</td></tr>
+                <tr><td>25 Jun</td><td>Gaji Tutor — Budi Santoso</td><td style="color:var(--danger);font-weight:700;">-Rp 684.000</td></tr>
+                <tr><td>20 Jun</td><td>Listrik & Internet</td><td style="color:var(--danger);font-weight:700;">-Rp 450.000</td></tr>
+                <tr><td>18 Jun</td><td>ATK & Modul Belajar</td><td style="color:var(--danger);font-weight:700;">-Rp 380.000</td></tr>
+                <tr><td>15 Jun</td><td>Kebersihan & Maintenance</td><td style="color:var(--danger);font-weight:700;">-Rp 200.000</td></tr>
+                <tr><td>10 Jun</td><td>Lain-lain Operasional</td><td style="color:var(--danger);font-weight:700;">-Rp 551.000</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;">
+            <span style="font-size:13px;color:var(--text-muted);">Total Pengeluaran</span>
+            <strong style="color:var(--danger);">Rp 4.500.000</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RINGKASAN LABA RUGI -->
+    <div class="card-sm mt-4" style="border:2px solid rgba(21,101,192,0.2);">
+      <h6 style="font-weight:800;margin-bottom:16px;">📋 Ringkasan Laba / Rugi — Juni 2024</h6>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div style="padding:16px;background:rgba(34,197,94,0.08);border-radius:12px;border:1px solid rgba(34,197,94,0.2);">
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Total Pemasukan</p>
+            <h4 style="color:var(--success);font-weight:800;font-size:22px;margin:0;">Rp 12.500.000</h4>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div style="padding:16px;background:rgba(239,68,68,0.08);border-radius:12px;border:1px solid rgba(239,68,68,0.2);">
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Total Pengeluaran</p>
+            <h4 style="color:var(--danger);font-weight:800;font-size:22px;margin:0;">Rp 6.500.000</h4>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div style="padding:16px;background:rgba(21,101,192,0.08);border-radius:12px;border:2px solid var(--primary);">
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Laba Bersih</p>
+            <h4 style="color:var(--primary);font-weight:800;font-size:22px;margin:0;">Rp 6.000.000</h4>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:14px 16px;background:var(--bg);border-radius:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span style="font-size:13px;color:var(--text-muted);">Margin keuntungan:</span>
+        <div style="flex:1;height:10px;background:var(--border);border-radius:99px;min-width:120px;">
+          <div style="width:48%;height:10px;background:var(--primary);border-radius:99px;"></div>
+        </div>
+        <strong style="color:var(--primary);font-size:15px;">48%</strong>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL TAMBAH TRANSAKSI -->
+<div class="modal fade" id="modalTambahTransaksi" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" id="modalTransaksiHeader">
+        <h5 class="modal-title" id="modalTransaksiTitle">+ Tambah Pemasukan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Jenis Transaksi</label>
+            <select class="form-select" id="jenisTransaksi">
+              <option value="masuk">Pemasukan</option>
+              <option value="keluar">Pengeluaran</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Keterangan *</label>
+            <input type="text" class="form-control" placeholder="Cth: Pembayaran SPP Batch 5" required/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nominal (Rp) *</label>
+            <input type="number" class="form-control" placeholder="500000" required min="0"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Tanggal *</label>
+            <input type="date" class="form-control" required/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Kategori</label>
+            <select class="form-select">
+              <option>Pembayaran SPP</option>
+              <option>Gaji Tutor</option>
+              <option>Operasional</option>
+              <option>ATK & Perlengkapan</option>
+              <option>Lain-lain</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Catatan</label>
+            <textarea class="form-control" rows="2" placeholder="Catatan opsional..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn-primary-sm" onclick="simpanTransaksi()">💾 Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+<script>
+  // Set today
+  document.getElementById('inputTanggal').value = new Date().toISOString().split('T')[0];
+
+  // Periode tab
+  const periodeData = {
+    harian:  { pemasukan: 'Rp 850.000',  pengeluaran: 'Rp 385.000',  laba: 'Rp 465.000',  margin: '55%' },
+    bulanan: { pemasukan: 'Rp 12,5Jt',   pengeluaran: 'Rp 6,5Jt',    laba: 'Rp 6,0Jt',    margin: '48%' },
+    tahunan: { pemasukan: 'Rp 142,0Jt',  pengeluaran: 'Rp 74,0Jt',   laba: 'Rp 68,0Jt',   margin: '48%' },
+  };
+
+  function setPeriode(p) {
+    ['harian','bulanan','tahunan'].forEach(id => {
+      const btn = document.getElementById('btn' + id.charAt(0).toUpperCase() + id.slice(1));
+      btn.style.background = id === p ? 'var(--primary)' : 'transparent';
+      btn.style.color      = id === p ? '#fff' : 'var(--text-muted)';
+      document.getElementById('filter' + id.charAt(0).toUpperCase() + id.slice(1)).style.display = id === p ? '' : 'none';
+    });
+    const d = periodeData[p];
+    document.getElementById('statPemasukan').textContent   = d.pemasukan;
+    document.getElementById('statPengeluaran').textContent = d.pengeluaran;
+    document.getElementById('statLaba').textContent        = d.laba;
+    document.getElementById('statMargin').textContent      = d.margin;
+  }
+  setPeriode('harian');
+
+  // Line chart pemasukan vs pengeluaran
+  new Chart(document.getElementById('chartPemasukan'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'],
+      datasets: [{
+        label: 'Pemasukan',
+        data: [8500000,9200000,10500000,11000000,12000000,13500000,12800000,14000000,15000000,14500000,16000000,17500000],
+        borderColor: '#1565C0', backgroundColor: 'rgba(21,101,192,0.08)',
+        fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: '#1565C0',
+      },{
+        label: 'Pengeluaran',
+        data: [5000000,5500000,6000000,6200000,6500000,7000000,6800000,7200000,7500000,7800000,8000000,8500000],
+        borderColor: '#EF4444', backgroundColor: 'rgba(239,68,68,0.06)',
+        fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: '#EF4444',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          beginAtZero: true,
+          ticks: { callback: v => 'Rp ' + (v/1000000).toFixed(1) + 'Jt' },
+          grid: { color: 'rgba(0,0,0,0.04)' }
+        }
+      }
+    }
+  });
+
+  // Doughnut komposisi pengeluaran
+  new Chart(document.getElementById('chartKomposisi'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Gaji Tutor', 'Operasional', 'Lain-lain'],
+      datasets: [{
+        data: [5000000, 1000000, 500000],
+        backgroundColor: ['#FFC107', '#EF4444', '#8B5CF6'],
+        borderWidth: 0, hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      cutout: '68%'
+    }
+  });
+
+  // Modal transaksi
+  function openModal(id, jenis) {
+    if (jenis) {
+      document.getElementById('jenisTransaksi').value = jenis;
+      document.getElementById('modalTransaksiTitle').textContent =
+        jenis === 'masuk' ? '📥 Tambah Pemasukan' : '📤 Tambah Pengeluaran';
+    }
+    new bootstrap.Modal(document.getElementById(id)).show();
+  }
+
+  function simpanTransaksi() {
+    showToast('Transaksi berhasil disimpan!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('modalTambahTransaksi'))?.hide();
+  }
+</script>
+</body>
+</html>

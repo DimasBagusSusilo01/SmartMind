@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Absensi — SMART MIND</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-text"><h5>SMART MIND</h5><span>Bimbingan Belajar</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Utama</div>
+    <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <div class="nav-section-title">Akademik</div>
+    <a href="siswa.html"    class="sidebar-link"><span class="icon">👨‍🎓</span> Siswa</a>
+    <a href="tutor.html"    class="sidebar-link"><span class="icon">👨‍🏫</span> Tutor</a>
+    <a href="jadwal.html"   class="sidebar-link"><span class="icon">📅</span> Jadwal</a>
+    <a href="absensi.html"  class="sidebar-link active"><span class="icon">✅</span> Absensi</a>
+    <div class="nav-section-title">Keuangan</div>
+    <a href="pembayaran.html" class="sidebar-link"><span class="icon">💳</span> Pembayaran<span class="badge-count">3</span></a>
+    <a href="gaji.html"     class="sidebar-link"><span class="icon">💰</span> Gaji Tutor</a>
+    <a href="keuangan.html" class="sidebar-link"><span class="icon">📊</span> Laporan Keuangan</a>
+    <div class="nav-section-title">Lainnya</div>
+    <a href="index.html"    class="sidebar-link"><span class="icon">🌐</span> Landing Page</a>
+    <a href="login.html"    class="sidebar-link"><span class="icon">🚪</span> Logout</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar">A</div>
+      <div class="user-info"><strong>Administrator</strong><small>admin@smartmind.id</small></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-content">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="btn-icon" id="openSidebar">☰</div>
+      <div class="topbar-title"><h4>Absensi</h4><p>Input dan rekap kehadiran siswa & tutor</p></div>
+    </div>
+    <div class="topbar-right">
+      <div class="btn-icon" id="darkModeToggle">🌙</div>
+      <a href="login.html" class="btn-icon">🚪</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div data-role-section="admin,tutor">
+
+      <!-- TAB NAV -->
+    <div style="display:flex;gap:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:5px;width:fit-content;margin-bottom:24px;">
+      <button class="tab-btn active" id="tabSiswaBtn" onclick="switchTab('siswa')"
+        style="padding:9px 24px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:var(--primary);color:#fff;transition:all .2s;">
+        👨‍🎓 Absensi Siswa
+      </button>
+      <button class="tab-btn" id="tabTutorBtn" onclick="switchTab('tutor')"
+        style="padding:9px 24px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .2s;">
+        👨‍🏫 Absensi Tutor
+      </button>
+    </div>
+
+    <!-- ABSENSI SISWA -->
+    <div id="tabSiswa">
+      <!-- Stat mini -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-info"><h6>Hadir Hari Ini</h6><h3>42</h3><small>dari 48 siswa</small></div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon yellow">🤒</div>
+            <div class="stat-info"><h6>Sakit</h6><h3>3</h3></div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon blue">📋</div>
+            <div class="stat-info"><h6>Izin</h6><h3>2</h3></div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon red">❌</div>
+            <div class="stat-info"><h6>Alpha</h6><h3>1</h3></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <h5>✅ Input Absensi Siswa</h5>
+          <div class="d-flex gap-2 flex-wrap align-items-center">
+            <input type="date" class="form-control" style="width:auto;font-size:13px;" id="tglAbsensi"/>
+            <select class="form-select" style="width:auto;font-size:13px;">
+              <option>Semua Kelas</option>
+              <option>Kelas 7A · Matematika</option>
+              <option>Kelas 8B · IPA</option>
+              <option>Kelas 9A · B. Inggris</option>
+              <option>Kelas 10 IPA · Kimia</option>
+            </select>
+            <button class="btn-primary-sm btn-export-excel">📥 Export</button>
+            <button class="btn-primary-sm" onclick="simpanAbsensi()" style="background:var(--success);">💾 Simpan</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="tableSiswaAbsen">
+            <thead>
+              <tr><th>#</th><th>Nama Siswa</th><th>Kelas</th><th>Mata Pelajaran</th><th>Status Kehadiran</th><th>Keterangan</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td><td><strong>Ahmad Fauzi</strong></td><td>9 SMP</td><td>Matematika</td>
+                <td>
+                  <div class="d-flex gap-1 flex-wrap">
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#16A34A;"><input type="radio" name="s1" value="hadir" checked/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#D97706;"><input type="radio" name="s1" value="izin"/> Izin</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#2563EB;"><input type="radio" name="s1" value="sakit"/> Sakit</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#DC2626;"><input type="radio" name="s1" value="alpha"/> Alpha</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."/></td>
+              </tr>
+              <tr>
+                <td>2</td><td><strong>Siti Rahma</strong></td><td>6 SD</td><td>Matematika</td>
+                <td>
+                  <div class="d-flex gap-1 flex-wrap">
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#16A34A;"><input type="radio" name="s2" value="hadir" checked/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#D97706;"><input type="radio" name="s2" value="izin"/> Izin</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#2563EB;"><input type="radio" name="s2" value="sakit"/> Sakit</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#DC2626;"><input type="radio" name="s2" value="alpha"/> Alpha</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."/></td>
+              </tr>
+              <tr>
+                <td>3</td><td><strong>Budi Hartono</strong></td><td>12 SMA</td><td>Kimia</td>
+                <td>
+                  <div class="d-flex gap-1 flex-wrap">
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#16A34A;"><input type="radio" name="s3" value="hadir"/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#D97706;"><input type="radio" name="s3" value="izin"/> Izin</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#2563EB;"><input type="radio" name="s3" value="sakit" checked/> Sakit</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#DC2626;"><input type="radio" name="s3" value="alpha"/> Alpha</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" value="Demam"/></td>
+              </tr>
+              <tr>
+                <td>4</td><td><strong>Dewi Lestari</strong></td><td>11 SMA</td><td>Fisika</td>
+                <td>
+                  <div class="d-flex gap-1 flex-wrap">
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#16A34A;"><input type="radio" name="s4" value="hadir" checked/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#D97706;"><input type="radio" name="s4" value="izin"/> Izin</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#2563EB;"><input type="radio" name="s4" value="sakit"/> Sakit</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#DC2626;"><input type="radio" name="s4" value="alpha"/> Alpha</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."/></td>
+              </tr>
+              <tr>
+                <td>5</td><td><strong>Rizky Aditya</strong></td><td>8 SMP</td><td>IPA</td>
+                <td>
+                  <div class="d-flex gap-1 flex-wrap">
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#16A34A;"><input type="radio" name="s5" value="hadir"/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#D97706;"><input type="radio" name="s5" value="izin"/> Izin</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#2563EB;"><input type="radio" name="s5" value="sakit"/> Sakit</label>
+                    <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:#DC2626;"><input type="radio" name="s5" value="alpha" checked/> Alpha</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" value="Tanpa keterangan"/></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- REKAP BULANAN SISWA -->
+      <div class="table-card mt-4">
+        <div class="table-header">
+          <h5>📊 Rekap Absensi Bulanan — Siswa</h5>
+          <div class="d-flex gap-2">
+            <select class="form-select" style="width:auto;font-size:13px;">
+              <option>Juni 2024</option><option>Mei 2024</option><option>April 2024</option>
+            </select>
+            <button class="btn-primary-sm btn-export-excel">📥 Excel</button>
+            <button class="btn-primary-sm btn-export-pdf" style="background:#EF4444;">📄 PDF</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr><th>Nama Siswa</th><th>Total Sesi</th><th style="color:#16A34A;">Hadir</th><th style="color:#D97706;">Izin</th><th style="color:#2563EB;">Sakit</th><th style="color:#DC2626;">Alpha</th><th>% Hadir</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Ahmad Fauzi</strong></td><td>20</td><td><span class="badge-status badge-hadir">18</span></td><td>1</td><td>1</td><td>0</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:6px;background:var(--border);border-radius:99px;"><div style="width:90%;height:6px;background:#22C55E;border-radius:99px;"></div></div><span style="font-size:12px;font-weight:700;">90%</span></div></td></tr>
+              <tr><td><strong>Siti Rahma</strong></td><td>20</td><td><span class="badge-status badge-hadir">20</span></td><td>0</td><td>0</td><td>0</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:6px;background:var(--border);border-radius:99px;"><div style="width:100%;height:6px;background:#22C55E;border-radius:99px;"></div></div><span style="font-size:12px;font-weight:700;">100%</span></div></td></tr>
+              <tr><td><strong>Budi Hartono</strong></td><td>20</td><td><span class="badge-status badge-hadir">15</span></td><td>2</td><td>3</td><td>0</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:6px;background:var(--border);border-radius:99px;"><div style="width:75%;height:6px;background:#F59E0B;border-radius:99px;"></div></div><span style="font-size:12px;font-weight:700;">75%</span></div></td></tr>
+              <tr><td><strong>Dewi Lestari</strong></td><td>20</td><td><span class="badge-status badge-hadir">19</span></td><td>1</td><td>0</td><td>0</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:6px;background:var(--border);border-radius:99px;"><div style="width:95%;height:6px;background:#22C55E;border-radius:99px;"></div></div><span style="font-size:12px;font-weight:700;">95%</span></div></td></tr>
+              <tr><td><strong>Rizky Aditya</strong></td><td>20</td><td><span class="badge-status badge-hadir">12</span></td><td>3</td><td>2</td><td>3</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="flex:1;height:6px;background:var(--border);border-radius:99px;"><div style="width:60%;height:6px;background:#EF4444;border-radius:99px;"></div></div><span style="font-size:12px;font-weight:700;color:#DC2626;">60%</span></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABSENSI TUTOR -->
+    <div id="tabTutor" style="display:none;">
+      <div class="row g-3 mb-4">
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-info"><h6>Tutor Hadir</h6><h3>10</h3><small>dari 12 tutor</small></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon red">❌</div>
+            <div class="stat-info"><h6>Tidak Hadir</h6><h3>2</h3></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon yellow">📋</div>
+            <div class="stat-info"><h6>Total Sesi Hari Ini</h6><h3>7</h3></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <h5>✅ Input Absensi Tutor</h5>
+          <div class="d-flex gap-2 flex-wrap">
+            <input type="date" class="form-control" style="width:auto;font-size:13px;"/>
+            <button class="btn-primary-sm" onclick="simpanAbsensi()" style="background:var(--success);">💾 Simpan</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr><th>#</th><th>Nama Tutor</th><th>Mapel</th><th>Jam Mengajar</th><th>Kehadiran</th><th>Keterangan</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td><td><strong>Sari Dewi, S.Pd</strong></td><td>Matematika</td><td>13.00–14.30</td>
+                <td>
+                  <div class="d-flex gap-3">
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#16A34A;"><input type="radio" name="t1" value="hadir" checked/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#DC2626;"><input type="radio" name="t1" value="tidak"/> Tidak Hadir</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."/></td>
+              </tr>
+              <tr>
+                <td>2</td><td><strong>Doni Pratama, M.Si</strong></td><td>IPA/Fisika</td><td>14.00–15.30</td>
+                <td>
+                  <div class="d-flex gap-3">
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#16A34A;"><input type="radio" name="t2" value="hadir" checked/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#DC2626;"><input type="radio" name="t2" value="tidak"/> Tidak Hadir</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."/></td>
+              </tr>
+              <tr>
+                <td>3</td><td><strong>Rina Safitri, S.S</strong></td><td>B. Inggris</td><td>15.30–17.00</td>
+                <td>
+                  <div class="d-flex gap-3">
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#16A34A;"><input type="radio" name="t3" value="hadir"/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#DC2626;"><input type="radio" name="t3" value="tidak" checked/> Tidak Hadir</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" value="Urusan keluarga"/></td>
+              </tr>
+              <tr>
+                <td>4</td><td><strong>Budi Santoso, S.Si</strong></td><td>Kimia</td><td>17.00–18.30</td>
+                <td>
+                  <div class="d-flex gap-3">
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#16A34A;"><input type="radio" name="t4" value="hadir" checked/> Hadir</label>
+                    <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#DC2626;"><input type="radio" name="t4" value="tidak"/> Tidak Hadir</label>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."/></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Rekap bulanan tutor -->
+      <div class="table-card mt-4">
+        <div class="table-header">
+          <h5>📊 Rekap Absensi Bulanan — Tutor</h5>
+          <div class="d-flex gap-2">
+            <select class="form-select" style="width:auto;font-size:13px;">
+              <option>Juni 2024</option><option>Mei 2024</option>
+            </select>
+            <button class="btn-primary-sm btn-export-excel">📥 Excel</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr><th>Nama Tutor</th><th>Total Jadwal</th><th style="color:#16A34A;">Hadir</th><th style="color:#DC2626;">Tidak Hadir</th><th>% Kehadiran</th><th>Total Sesi Terhitung</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Sari Dewi</strong></td><td>24</td><td>22</td><td>2</td><td><span style="color:#22C55E;font-weight:700;">91.7%</span></td><td><span style="font-weight:700;color:var(--primary);">22 sesi</span></td></tr>
+              <tr><td><strong>Doni Pratama</strong></td><td>20</td><td>20</td><td>0</td><td><span style="color:#22C55E;font-weight:700;">100%</span></td><td><span style="font-weight:700;color:var(--primary);">20 sesi</span></td></tr>
+              <tr><td><strong>Rina Safitri</strong></td><td>22</td><td>19</td><td>3</td><td><span style="color:#F59E0B;font-weight:700;">86.4%</span></td><td><span style="font-weight:700;color:var(--primary);">19 sesi</span></td></tr>
+              <tr><td><strong>Budi Santoso</strong></td><td>18</td><td>18</td><td>0</td><td><span style="color:#22C55E;font-weight:700;">100%</span></td><td><span style="font-weight:700;color:var(--primary);">18 sesi</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+<script>
+  // Set today
+  document.getElementById('tglAbsensi').value = new Date().toISOString().split('T')[0];
+
+  function switchTab(tab) {
+    const isSiswa = tab === 'siswa';
+    document.getElementById('tabSiswa').style.display    = isSiswa ? '' : 'none';
+    document.getElementById('tabTutor').style.display    = isSiswa ? 'none' : '';
+    document.getElementById('tabSiswaBtn').style.background = isSiswa ? 'var(--primary)' : 'transparent';
+    document.getElementById('tabSiswaBtn').style.color   = isSiswa ? '#fff' : 'var(--text-muted)';
+    document.getElementById('tabTutorBtn').style.background = isSiswa ? 'transparent' : 'var(--primary)';
+    document.getElementById('tabTutorBtn').style.color   = isSiswa ? 'var(--text-muted)' : '#fff';
+  }
+
+  function simpanAbsensi() {
+    showToast('Absensi berhasil disimpan!', 'success');
+  }
+</script>
+</body>
+</html>

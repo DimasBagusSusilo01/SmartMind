@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Tutor — SMART MIND</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-text"><h5>SMART MIND</h5><span>Bimbingan Belajar</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Utama</div>
+    <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <div class="nav-section-title">Akademik</div>
+    <a href="siswa.html"     class="sidebar-link"><span class="icon">👨‍🎓</span> Siswa</a>
+    <a href="tutor.html"     class="sidebar-link active"><span class="icon">👨‍🏫</span> Tutor</a>
+    <a href="jadwal.html"    class="sidebar-link"><span class="icon">📅</span> Jadwal</a>
+    <a href="absensi.html"   class="sidebar-link"><span class="icon">✅</span> Absensi</a>
+    <div class="nav-section-title">Keuangan</div>
+    <a href="pembayaran.html" class="sidebar-link"><span class="icon">💳</span> Pembayaran<span class="badge-count">3</span></a>
+    <a href="gaji.html"      class="sidebar-link"><span class="icon">💰</span> Gaji Tutor</a>
+    <a href="keuangan.html"  class="sidebar-link"><span class="icon">📊</span> Laporan Keuangan</a>
+    <div class="nav-section-title">Lainnya</div>
+    <a href="index.html"     class="sidebar-link"><span class="icon">🌐</span> Landing Page</a>
+    <a href="login.html"     class="sidebar-link"><span class="icon">🚪</span> Logout</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar">A</div>
+      <div class="user-info"><strong>Administrator</strong><small>admin@smartmind.id</small></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-content">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="btn-icon" id="openSidebar">☰</div>
+      <div class="topbar-title"><h4>Data Tutor</h4><p>Manajemen data pengajar bimbel</p></div>
+    </div>
+    <div class="topbar-right">
+      <div class="btn-icon" id="darkModeToggle">🌙</div>
+      <a href="login.html" class="btn-icon">🚪</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div data-role-section="admin">
+
+      <!-- STAT MINI -->
+      <div class="row g-3 mb-4">
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon yellow">👨‍🏫</div>
+          <div class="stat-info"><h6>Total Tutor</h6><h3>12</h3></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-info"><h6>Aktif</h6><h3>10</h3></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon blue">📚</div>
+          <div class="stat-info"><h6>Mapel Diajarkan</h6><h3>8</h3></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon purple">📋</div>
+          <div class="stat-info"><h6>Sesi Bulan Ini</h6><h3>240</h3></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUTOR CARDS -->
+    <div class="table-card mb-4">
+      <div class="table-header">
+        <h5>👨‍🏫 Daftar Tutor</h5>
+        <div class="d-flex gap-2 flex-wrap align-items-center">
+          <div class="search-box">
+            <input type="text" id="searchTutor" placeholder="Cari tutor..."/>
+            <span class="search-icon">🔍</span>
+          </div>
+          <select class="form-select" style="width:auto;font-size:13px;padding:7px 12px;">
+            <option>Semua Mapel</option>
+            <option>Matematika</option><option>IPA/Fisika</option>
+            <option>Kimia</option><option>B. Inggris</option><option>B. Indonesia</option>
+          </select>
+          <button class="btn-primary-sm btn-export-excel">📥 Excel</button>
+          <button class="btn-primary-sm" onclick="openModal('modalTambahTutor')" style="background:var(--success);">
+            ➕ Tambah Tutor
+          </button>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table" id="tableTutor">
+          <thead>
+            <tr>
+              <th>#</th><th>Nama Tutor</th><th>Mata Pelajaran</th>
+              <th>No. HP</th><th>Honor/Jam</th>
+              <th>Status</th><th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tutorTbody">
+          </tbody>
+            <tr>
+              <td>1</td>
+              <td><div class="d-flex align-items-center gap-2">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1565C0,#42A5F5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">S</div>
+                <div><strong style="font-size:13px;">Sari Dewi, S.Pd</strong><small style="color:var(--text-muted);display:block;">S1 Mat. UGM</small></div>
+              </div></td>
+              <td><span style="background:rgba(21,101,192,0.1);color:#1565C0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">Matematika</span></td>
+              <td>0812-0001-0001</td>
+              <td><strong style="color:var(--success);">Rp 35.000</strong></td>
+              <td><span style="font-weight:700;">24 sesi</span></td>
+              <td><span class="badge-status badge-aktif">Aktif</span></td>
+              <td><div class="d-flex gap-1">
+                <button class="btn-icon" title="Rekap" onclick="rekapTutor('Sari Dewi')" style="width:30px;height:30px;font-size:13px;">📋</button>
+                <button class="btn-icon" title="Edit" onclick="editTutor(this)" style="width:30px;height:30px;font-size:13px;">✏️</button>
+                <button class="btn-icon btn-delete" data-name="Sari Dewi" style="width:30px;height:30px;font-size:13px;">🗑️</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><div class="d-flex align-items-center gap-2">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#F9A825,#FFC107);display:flex;align-items:center;justify-content:center;color:#0D47A1;font-weight:700;font-size:14px;flex-shrink:0;">D</div>
+                <div><strong style="font-size:13px;">Doni Pratama, M.Si</strong><small style="color:var(--text-muted);display:block;">S2 Fisika ITB</small></div>
+              </div></td>
+              <td><span style="background:rgba(245,158,11,0.12);color:#D97706;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">IPA / Fisika</span></td>
+              <td>0813-0002-0002</td>
+              <td><strong style="color:var(--success);">Rp 40.000</strong></td>
+              <td><span style="font-weight:700;">20 sesi</span></td>
+              <td><span class="badge-status badge-aktif">Aktif</span></td>
+              <td><div class="d-flex gap-1">
+                <button class="btn-icon" onclick="rekapTutor('Doni Pratama')" style="width:30px;height:30px;font-size:13px;">📋</button>
+                <button class="btn-icon" onclick="editTutor(this)" style="width:30px;height:30px;font-size:13px;">✏️</button>
+                <button class="btn-icon btn-delete" data-name="Doni Pratama" style="width:30px;height:30px;font-size:13px;">🗑️</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><div class="d-flex align-items-center gap-2">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#4ADE80);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">R</div>
+                <div><strong style="font-size:13px;">Rina Safitri, S.S</strong><small style="color:var(--text-muted);display:block;">S1 Sastra UNPAD</small></div>
+              </div></td>
+              <td><span style="background:rgba(34,197,94,0.12);color:#16A34A;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">B. Inggris</span></td>
+              <td>0857-0003-0003</td>
+              <td><strong style="color:var(--success);">Rp 35.000</strong></td>
+              <td><span style="font-weight:700;">22 sesi</span></td>
+              <td><span class="badge-status badge-aktif">Aktif</span></td>
+              <td><div class="d-flex gap-1">
+                <button class="btn-icon" onclick="rekapTutor('Rina Safitri')" style="width:30px;height:30px;font-size:13px;">📋</button>
+                <button class="btn-icon" onclick="editTutor(this)" style="width:30px;height:30px;font-size:13px;">✏️</button>
+                <button class="btn-icon btn-delete" data-name="Rina Safitri" style="width:30px;height:30px;font-size:13px;">🗑️</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><div class="d-flex align-items-center gap-2">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6,#A78BFA);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">B</div>
+                <div><strong style="font-size:13px;">Budi Santoso, S.Si</strong><small style="color:var(--text-muted);display:block;">S1 Kimia UNDIP</small></div>
+              </div></td>
+              <td><span style="background:rgba(139,92,246,0.12);color:#7C3AED;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">Kimia</span></td>
+              <td>0878-0004-0004</td>
+              <td><strong style="color:var(--success);">Rp 38.000</strong></td>
+              <td><span style="font-weight:700;">18 sesi</span></td>
+              <td><span class="badge-status badge-aktif">Aktif</span></td>
+              <td><div class="d-flex gap-1">
+                <button class="btn-icon" onclick="rekapTutor('Budi Santoso')" style="width:30px;height:30px;font-size:13px;">📋</button>
+                <button class="btn-icon" onclick="editTutor(this)" style="width:30px;height:30px;font-size:13px;">✏️</button>
+                <button class="btn-icon btn-delete" data-name="Budi Santoso" style="width:30px;height:30px;font-size:13px;">🗑️</button>
+              </div></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><div class="d-flex align-items-center gap-2">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#EF4444,#F87171);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">W</div>
+                <div><strong style="font-size:13px;">Wulandari, S.Pd</strong><small style="color:var(--text-muted);display:block;">S1 B.Ind. UNY</small></div>
+              </div></td>
+              <td><span style="background:rgba(239,68,68,0.1);color:#DC2626;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">B. Indonesia</span></td>
+              <td>0823-0005-0005</td>
+              <td><strong style="color:var(--success);">Rp 30.000</strong></td>
+              <td><span style="font-weight:700;">16 sesi</span></td>
+              <td><span class="badge-status badge-nonaktif">Non-aktif</span></td>
+              <td><div class="d-flex gap-1">
+                <button class="btn-icon" onclick="rekapTutor('Wulandari')" style="width:30px;height:30px;font-size:13px;">📋</button>
+                <button class="btn-icon" onclick="editTutor(this)" style="width:30px;height:30px;font-size:13px;">✏️</button>
+                <button class="btn-icon btn-delete" data-name="Wulandari" style="width:30px;height:30px;font-size:13px;">🗑️</button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div data-role-section="tutor" style="display:none;">
+      <div style="background:linear-gradient(135deg,#0F766E,#14B8A6);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <h5 style="color:#fff;font-weight:800;margin:0 0 4px;">Halo Tutor!</h5>
+          <p style="color:rgba(255,255,255,0.75);font-size:13px;margin:0;">Lihat gaji, jadwal, dan nama siswa bimbingan Anda.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="gaji.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">💰 Gaji</a>
+          <a href="jadwal.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">📅 Jadwal</a>
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">💰</div>
+            <div class="stat-info"><h6>Gaji Bulan Ini</h6><h3>Rp 4.200.000</h3><small>8 sesi</small></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon teal">📅</div>
+            <div class="stat-info"><h6>Jadwal Hari Ini</h6><h3>3</h3><small>7 sesi minggu ini</small></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon blue">👨‍🎓</div>
+            <div class="stat-info"><h6>Nama Siswa</h6><h3>22</h3><small>Dalam bimbingan</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="table-card mb-4">
+        <div class="table-header">
+          <h5>📅 Jadwal Saya</h5>
+          <a href="jadwal.html" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat Semua →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Waktu</th><th>Mapel</th><th>Ruang</th><th>Jumlah Siswa</th></tr></thead>
+            <tbody>
+              <tr><td><strong>13.00–14.30</strong></td><td>Matematika</td><td>Ruang 201</td><td>8 siswa</td></tr>
+              <tr><td><strong>15.00–16.30</strong></td><td>IPA Terpadu</td><td>Ruang 102</td><td>6 siswa</td></tr>
+              <tr><td><strong>17.00–18.30</strong></td><td>Bahasa Inggris</td><td>Ruang 304</td><td>7 siswa</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <h5>👨‍🎓 Siswa Saya</h5>
+          <a href="siswa.html" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat Semua →</a>
+        </div>
+        <div style="padding:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
+            <div><strong>Ahmad Fauzi</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">9 SMP · Matematika</p></div>
+            <span style="font-size:12px;color:#16A34A;">Nilai 89</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
+            <div><strong>Siti Rahma</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">6 SD · Matematika</p></div>
+            <span style="font-size:12px;color:#1565C0;">Nilai 92</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
+            <div><strong>Budi Hartono</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">12 SMA · Kimia</p></div>
+            <span style="font-size:12px;color:#7C3AED;">Nilai 84</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAMBAH TUTOR -->
+<div class="modal fade" id="modalTambahTutor" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">➕ Tambah Tutor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formTambahTutor">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Nama Lengkap & Gelar *</label>
+              <input type="text" class="form-control" placeholder="Cth: Sari Dewi, S.Pd" required/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Mata Pelajaran Utama *</label>
+              <select class="form-select" required>
+                <option value="">-- Pilih --</option>
+                <option>Matematika</option><option>IPA / Fisika</option>
+                <option>Kimia</option><option>Biologi</option>
+                <option>Bahasa Inggris</option><option>Bahasa Indonesia</option>
+                <option>IPS / Sejarah</option><option>Ekonomi</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Nomor HP *</label>
+              <input type="tel" class="form-control" placeholder="08xxxxxxxxxx" required/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Honor per Pertemuan (Rp) *</label>
+              <input type="number" class="form-control" placeholder="Cth: 35000" required min="0"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status</label>
+              <select class="form-select">
+                <option>Aktif</option><option>Non-aktif</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Pendidikan Terakhir</label>
+              <input type="text" class="form-control" placeholder="Cth: S1 Matematika UGM"/>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Alamat</label>
+              <textarea class="form-control" rows="2" placeholder="Alamat lengkap tutor"></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn-primary-sm" onclick="simpanTutor()">💾 Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REKAP TUTOR -->
+<div class="modal fade" id="modalRekapTutor" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">📋 Rekap Mengajar — <span id="rekapNama">Sari Dewi</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3 mb-3">
+          <div class="col-4">
+            <div style="text-align:center;padding:16px;background:rgba(21,101,192,0.08);border-radius:12px;">
+              <h4 style="font-size:28px;font-weight:800;color:var(--primary);margin:0;">24</h4>
+              <small style="color:var(--text-muted);">Total Sesi</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div style="text-align:center;padding:16px;background:rgba(34,197,94,0.08);border-radius:12px;">
+              <h4 style="font-size:28px;font-weight:800;color:var(--success);margin:0;">22</h4>
+              <small style="color:var(--text-muted);">Hadir</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div style="text-align:center;padding:16px;background:rgba(239,68,68,0.08);border-radius:12px;">
+              <h4 style="font-size:28px;font-weight:800;color:var(--danger);margin:0;">2</h4>
+              <small style="color:var(--text-muted);">Tidak Hadir</small>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Tanggal</th><th>Mapel</th><th>Siswa</th><th>Jam</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>01 Jun 2024</td><td>Matematika</td><td>Kelas 9A (8 siswa)</td><td>14.00–15.30</td><td><span class="badge-status badge-hadir">Hadir</span></td></tr>
+              <tr><td>03 Jun 2024</td><td>Matematika</td><td>Kelas 8B (6 siswa)</td><td>15.00–16.30</td><td><span class="badge-status badge-hadir">Hadir</span></td></tr>
+              <tr><td>05 Jun 2024</td><td>Matematika</td><td>Kelas 9A (8 siswa)</td><td>14.00–15.30</td><td><span class="badge-status badge-nonaktif">Tidak Hadir</span></td></tr>
+              <tr><td>07 Jun 2024</td><td>Matematika</td><td>Kelas 7C (7 siswa)</td><td>16.00–17.30</td><td><span class="badge-status badge-hadir">Hadir</span></td></tr>
+              <tr><td>10 Jun 2024</td><td>Matematika</td><td>Kelas 8B (6 siswa)</td><td>15.00–16.30</td><td><span class="badge-status badge-hadir">Hadir</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:16px;background:rgba(21,101,192,0.06);border-radius:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <p style="font-size:13px;color:var(--text-muted);margin:0;">Total Gaji (22 sesi × Rp 35.000)</p>
+            <h4 style="font-size:22px;font-weight:800;color:var(--primary);margin:4px 0 0;">Rp 770.000</h4>
+          </div>
+          <a href="gaji.html" class="btn-primary-sm">💰 Lihat Slip Gaji</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button class="btn-primary-sm btn-export-pdf">📄 Export PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDIT TUTOR -->
+<div class="modal fade" id="modalEditTutor" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">✏️ Edit Tutor</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditTutor">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label">Nama *</label>
+              <input type="text" class="form-control" name="nama" required/>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Email *</label>
+              <input type="email" class="form-control" name="email" required/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Mata Pelajaran *</label>
+              <input type="text" class="form-control" name="mata_pelajaran" required/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Nomor HP</label>
+              <input type="text" class="form-control" name="nomorHP"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Gaji/Jam (Rp)</label>
+              <input type="number" class="form-control" name="gaji_per_jam"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status *</label>
+              <select class="form-select" name="status" required>
+                <option value="aktif">Aktif</option>
+                <option value="nonaktif">Nonaktif</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-primary" onclick="saveEditForm('formEditTutor', 'modalEditTutor', 'sm-tutor')">💾 Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+<script src="dataManager.js"></script>
+<script>
+  function rekapTutor(nama) {
+    document.getElementById('rekapNama').textContent = nama;
+    openModal('modalRekapTutor');
+  }
+  function editTutor(btn) {
+    const nama = btn.closest('tr').cells[1].querySelector('strong').textContent;
+    document.querySelector('#modalTambahTutor .modal-title').textContent = '✏️ Edit Tutor: ' + nama;
+    openModal('modalTambahTutor');
+  }
+  function simpanTutor() {
+    showToast('Data tutor berhasil disimpan!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('modalTambahTutor'))?.hide();
+  }
+</script>
+</body>
+</html>

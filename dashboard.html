@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — SMART MIND</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-text">
+      <h5>SMART MIND</h5>
+      <span>Bimbingan Belajar</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Utama</div>
+    <a href="dashboard.html" class="sidebar-link active">
+      <span class="icon">🏠</span> Dashboard
+    </a>
+    <div class="nav-section-title">Akademik</div>
+    <a href="siswa.html"     class="sidebar-link"><span class="icon">👨‍🎓</span> Siswa</a>
+    <a href="tutor.html"     class="sidebar-link"><span class="icon">👨‍🏫</span> Tutor</a>
+    <a href="jadwal.html"    class="sidebar-link"><span class="icon">📅</span> Jadwal</a>
+    <a href="absensi.html"   class="sidebar-link"><span class="icon">✅</span> Absensi</a>
+    <div class="nav-section-title">Keuangan</div>
+    <a href="pembayaran.html" class="sidebar-link">
+      <span class="icon">💳</span> Pembayaran
+      <span class="badge-count">3</span>
+    </a>
+    <a href="gaji.html"      class="sidebar-link"><span class="icon">💰</span> Gaji Tutor</a>
+    <a href="keuangan.html"  class="sidebar-link"><span class="icon">📊</span> Laporan Keuangan</a>
+    <div class="nav-section-title">Lainnya</div>
+    <a href="index.html"     class="sidebar-link"><span class="icon">🌐</span> Landing Page</a>
+    <a href="#"              class="sidebar-link" onclick="backupDB()"><span class="icon">💾</span> Backup Database</a>
+    <a href="login.html"     class="sidebar-link"><span class="icon">🚪</span> Logout</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar">A</div>
+      <div class="user-info">
+        <strong>Administrator</strong>
+        <small>admin@smartmind.id</small>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="btn-icon" id="openSidebar">☰</div>
+      <div class="topbar-title">
+        <h4>Dashboard</h4>
+        <p id="topbarDate">Memuat tanggal...</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="btn-icon" id="darkModeToggle" title="Toggle Dark Mode">🌙</div>
+      <div class="btn-icon" title="Notifikasi" style="position:relative;">
+        🔔
+        <span style="position:absolute;top:6px;right:6px;width:8px;height:8px;background:#EF4444;border-radius:50%;border:2px solid var(--card-bg);"></span>
+      </div>
+      <a href="login.html" class="btn-icon" title="Logout">🚪</a>
+    </div>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page-content">
+    <div data-role-section="admin">
+
+      <!-- WELCOME BANNER -->
+      <div style="background:linear-gradient(135deg,#1565C0,#1976D2);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <div>
+        <h5 style="color:#fff;font-weight:800;margin:0 0 4px;">Selamat Datang, Administrator! 👋</h5>
+        <p style="color:rgba(255,255,255,0.75);font-size:13px;margin:0;">Berikut ringkasan aktivitas SMART MIND hari ini.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="siswa.html" class="btn-accent" style="font-size:13px;">+ Tambah Siswa</a>
+        <a href="jadwal.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">📅 Lihat Jadwal</a>
+      </div>
+    </div>
+
+    <!-- STAT CARDS ROW 1 -->
+    <div class="row g-3 mb-4">
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon blue">👨‍🎓</div>
+          <div class="stat-info">
+            <h6>Siswa Aktif</h6>
+            <h3>148</h3>
+            <small>↑ 5 bulan ini</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon yellow">👨‍🏫</div>
+          <div class="stat-info">
+            <h6>Total Tutor</h6>
+            <h3>12</h3>
+            <small style="color:var(--text-muted);">2 baru</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon green">💰</div>
+          <div class="stat-info">
+            <h6>Pemasukan</h6>
+            <h3 style="font-size:18px;">12,5Jt</h3>
+            <small>↑ 8% vs bulan lalu</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon red">📤</div>
+          <div class="stat-info">
+            <h6>Pengeluaran</h6>
+            <h3 style="font-size:18px;">6,5Jt</h3>
+            <small style="color:var(--danger);">↑ 3% vs lalu</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon purple">🧾</div>
+          <div class="stat-info">
+            <h6>Tagihan</h6>
+            <h3>18</h3>
+            <small style="color:var(--danger);">Belum lunas</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon teal">📅</div>
+          <div class="stat-info">
+            <h6>Jadwal Hari Ini</h6>
+            <h3>7</h3>
+            <small>Sesi belajar</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="row g-3 mb-4">
+      <div class="col-lg-8">
+        <div class="chart-container">
+          <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+            <h6 style="font-weight:700;margin:0;">📈 Grafik Siswa Aktif & Siswa Baru</h6>
+            <select class="form-select" style="width:auto;font-size:12px;padding:5px 10px;border-radius:8px;">
+              <option>2024</option><option>2023</option>
+            </select>
+          </div>
+          <div style="height:280px;"><canvas id="chartSiswa"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="chart-container h-100">
+          <h6 style="font-weight:700;margin-bottom:16px;">💹 Distribusi Keuangan Bulan Ini</h6>
+          <div style="height:220px;"><canvas id="chartKeuangan"></canvas></div>
+          <div class="d-flex flex-column gap-2 mt-3">
+            <div class="legend-item"><span class="legend-dot" style="background:#1565C0;"></span> Pemasukan: <strong>Rp 12.500.000</strong></div>
+            <div class="legend-item"><span class="legend-dot" style="background:#FFC107;"></span> Gaji Tutor: <strong>Rp 5.000.000</strong></div>
+            <div class="legend-item"><span class="legend-dot" style="background:#EF4444;"></span> Operasional: <strong>Rp 1.500.000</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW: Jadwal Hari Ini + Pendaftar Baru -->
+    <div class="row g-3">
+      <!-- JADWAL HARI INI -->
+      <div class="col-lg-7">
+        <div class="table-card">
+          <div class="table-header">
+            <h5>📅 Jadwal Hari Ini</h5>
+            <a href="jadwal.html" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat Semua →</a>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Waktu</th>
+                  <th>Mata Pelajaran</th>
+                  <th>Tutor</th>
+                  <th>Siswa</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>13.00–14.30</strong></td>
+                  <td>Matematika</td>
+                  <td>Bu Sari</td>
+                  <td><span style="background:rgba(21,101,192,0.1);color:#1565C0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">8 siswa</span></td>
+                  <td><span class="badge-status badge-hadir">Aktif</span></td>
+                </tr>
+                <tr>
+                  <td><strong>14.00–15.30</strong></td>
+                  <td>IPA Terpadu</td>
+                  <td>Pak Doni</td>
+                  <td><span style="background:rgba(21,101,192,0.1);color:#1565C0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">6 siswa</span></td>
+                  <td><span class="badge-status badge-hadir">Aktif</span></td>
+                </tr>
+                <tr>
+                  <td><strong>15.30–17.00</strong></td>
+                  <td>Bahasa Inggris</td>
+                  <td>Bu Rina</td>
+                  <td><span style="background:rgba(21,101,192,0.1);color:#1565C0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">7 siswa</span></td>
+                  <td><span class="badge-status" style="background:rgba(245,158,11,0.12);color:#D97706;">Akan Datang</span></td>
+                </tr>
+                <tr>
+                  <td><strong>16.00–17.30</strong></td>
+                  <td>Fisika</td>
+                  <td>Pak Budi</td>
+                  <td><span style="background:rgba(21,101,192,0.1);color:#1565C0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">5 siswa</span></td>
+                  <td><span class="badge-status" style="background:rgba(245,158,11,0.12);color:#D97706;">Akan Datang</span></td>
+                </tr>
+                <tr>
+                  <td><strong>18.00–19.30</strong></td>
+                  <td>Kimia</td>
+                  <td>Bu Rina</td>
+                  <td><span style="background:rgba(21,101,192,0.1);color:#1565C0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">6 siswa</span></td>
+                  <td><span class="badge-status badge-nonaktif">Belum Mulai</span></td>
+                </tr>
+                <tr>
+                  <td><strong>19.00–20.30</strong></td>
+                  <td>Matematika Lanjut</td>
+                  <td>Pak Doni</td>
+                  <td><span style="background:rgba(21,101,192,0.1);color:#1565C0;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;">4 siswa</span></td>
+                  <td><span class="badge-status badge-nonaktif">Belum Mulai</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PENDAFTAR BARU + TAGIHAN -->
+      <div class="col-lg-5">
+        <div class="table-card mb-3">
+          <div class="table-header">
+            <h5>🆕 Pendaftar Baru</h5>
+            <a href="siswa.html" style="font-size:13px;color:var(--primary);font-weight:600;">Semua →</a>
+          </div>
+          <div style="padding:8px 0;">
+            <div id="newStudentList">
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--border);">
+                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1565C0,#42A5F5);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">A</div>
+                <div style="flex:1;">
+                  <strong style="font-size:13px;">Ahmad Fauzi</strong>
+                  <p style="font-size:11px;color:var(--text-muted);margin:0;">Kelas 9 SMP · Paket SMP</p>
+                </div>
+                <span style="font-size:11px;color:var(--text-muted);">2 jam lalu</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 20px;border-bottom:1px solid var(--border);">
+                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#F9A825,#FFC107);display:flex;align-items:center;justify-content:center;color:#0D47A1;font-weight:700;font-size:14px;flex-shrink:0;">S</div>
+                <div style="flex:1;">
+                  <strong style="font-size:13px;">Siti Rahma</strong>
+                  <p style="font-size:11px;color:var(--text-muted);margin:0;">Kelas 6 SD · Paket SD</p>
+                </div>
+                <span style="font-size:11px;color:var(--text-muted);">5 jam lalu</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 20px;">
+                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#4ADE80);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0;">B</div>
+                <div style="flex:1;">
+                  <strong style="font-size:13px;">Budi Santoso</strong>
+                  <p style="font-size:11px;color:var(--text-muted);margin:0;">Kelas 12 SMA · Paket SMA</p>
+                </div>
+                <span style="font-size:11px;color:var(--text-muted);">1 hari lalu</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAGIHAN BELUM LUNAS -->
+        <div class="table-card">
+          <div class="table-header">
+            <h5>🧾 Tagihan Belum Lunas</h5>
+            <a href="pembayaran.html" style="font-size:13px;color:var(--danger);font-weight:600;">Lihat →</a>
+          </div>
+          <div style="padding:8px 0;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);">
+              <div>
+                <strong style="font-size:13px;">Rizky Aditya</strong>
+                <p style="font-size:11px;color:var(--text-muted);margin:0;">Paket SMP · Juni 2024</p>
+              </div>
+              <span style="font-size:13px;font-weight:700;color:var(--danger);">Rp 350.000</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);">
+              <div>
+                <strong style="font-size:13px;">Dewi Lestari</strong>
+                <p style="font-size:11px;color:var(--text-muted);margin:0;">Paket SMA · Juni 2024</p>
+              </div>
+              <span style="font-size:13px;font-weight:700;color:var(--danger);">Rp 450.000</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px;">
+              <div>
+                <strong style="font-size:13px;">Eko Prasetyo</strong>
+                <p style="font-size:11px;color:var(--text-muted);margin:0;">Paket SD · Juni 2024</p>
+              </div>
+              <span style="font-size:13px;font-weight:700;color:var(--danger);">Rp 250.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-role-section="tutor" style="display:none;">
+      <div style="background:linear-gradient(135deg,#0F766E,#14B8A6);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <h5 style="color:#fff;font-weight:800;margin:0 0 4px;">Selamat Datang, Tutor! 👋</h5>
+          <p style="color:rgba(255,255,255,0.75);font-size:13px;margin:0;">Lihat gaji, jadwal, dan daftar siswa bimbingan Anda.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="gaji.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">💰 Lihat Gaji</a>
+          <a href="jadwal.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">📅 Jadwal Saya</a>
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">💰</div>
+            <div class="stat-info"><h6>Gaji Bulan Ini</h6><h3>Rp 4.200.000</h3><small>8 sesi tersisa</small></div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon teal">📅</div>
+            <div class="stat-info"><h6>Jadwal Hari Ini</h6><h3>3</h3><small>7 sesi minggu ini</small></div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon blue">👨‍🎓</div>
+            <div class="stat-info"><h6>Jumlah Siswa</h6><h3>22</h3><small>dalam bimbingan</small></div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon yellow">⭐</div>
+            <div class="stat-info"><h6>Nilai Rata-rata</h6><h3>87%</h3><small>rapor siswa</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="table-card mb-4">
+        <div class="table-header">
+          <h5>📅 Jadwal Saya</h5>
+          <a href="jadwal.html" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat Semua →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Waktu</th><th>Mapel</th><th>Ruang</th><th>Jumlah Siswa</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><strong>13.00–14.30</strong></td><td>Matematika</td><td>Ruang 201</td><td>8 siswa</td><td><span class="badge-status badge-hadir">Aktif</span></td></tr>
+              <tr><td><strong>15.00–16.30</strong></td><td>IPA Terpadu</td><td>Ruang 102</td><td>6 siswa</td><td><span class="badge-status badge-hadir">Aktif</span></td></tr>
+              <tr><td><strong>17.00–18.30</strong></td><td>Bahasa Inggris</td><td>Ruang 304</td><td>7 siswa</td><td><span class="badge-status badge-hadir">Aktif</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <h5>👨‍🎓 Siswa Bimbingan</h5>
+        </div>
+        <div style="padding:12px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+            <div><strong>Ahmad Fauzi</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">9 SMP · Matematika</p></div><span style="font-size:12px;color:var(--success);">Nilai 89</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);">
+            <div><strong>Siti Rahma</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">6 SD · Matematika</p></div><span style="font-size:12px;color:#1565C0;">Nilai 92</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;">
+            <div><strong>Budi Hartono</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">12 SMA · Kimia</p></div><span style="font-size:12px;color:#7C3AED;">Nilai 84</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-role-section="siswa" style="display:none;">
+      <div style="background:linear-gradient(135deg,#2563EB,#3B82F6);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <h5 style="color:#fff;font-weight:800;margin:0 0 4px;">Selamat Datang, Siswa! 👋</h5>
+          <p style="color:rgba(255,255,255,0.75);font-size:13px;margin:0;">Cek tagihan, jadwal, dan nama tutor pengajar Anda.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="pembayaran.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">💳 Tagihan</a>
+          <a href="jadwal.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">📅 Jadwal</a>
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">💳</div>
+            <div class="stat-info"><h6>Tagihan Aktif</h6><h3>1</h3><small>Rp 350.000</small></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon teal">👨‍🏫</div>
+            <div class="stat-info"><h6>Tutor Pengajar</h6><h3>Bu Sari</h3><small>Matematika</small></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon yellow">📅</div>
+            <div class="stat-info"><h6>Jadwal Besok</h6><h3>1 sesi</h3><small>14.00–15.30</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="table-card mb-4">
+        <div class="table-header">
+          <h5>👨‍🏫 Tutor Anda</h5>
+          <a href="tutor.html" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat Tutor →</a>
+        </div>
+        <div style="padding:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);">
+            <div><strong>Bu Sari Dewi</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">Matematika · S1 UGM</p></div>
+            <span style="font-size:12px;color:#16A34A;">8 siswa</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;">
+            <div><strong>Pak Doni Pratama</strong><p style="font-size:12px;color:var(--text-muted);margin:0;">IPA / Fisika · S2 ITB</p></div>
+            <span style="font-size:12px;color:#1565C0;">6 siswa</span>
+          </div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <h5>📅 Jadwal Anda</h5>
+          <a href="jadwal.html" style="font-size:13px;color:var(--primary);font-weight:600;">Lihat Semua →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Hari</th><th>Waktu</th><th>Mapel</th><th>Tutor</th></tr></thead>
+            <tbody>
+              <tr><td>Senin</td><td>14.00–15.30</td><td>Matematika</td><td>Bu Sari</td></tr>
+              <tr><td>Rabu</td><td>16.00–17.30</td><td>IPA</td><td>Pak Doni</td></tr>
+              <tr><td>Jumat</td><td>18.00–19.30</td><td>Bahasa Inggris</td><td>Bu Rina</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- /page-content -->
+</div><!-- /main-content -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+<script>
+  // Tanggal di topbar
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const now = new Date();
+  document.getElementById('topbarDate').textContent =
+    `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+
+  // Backup DB (simulasi)
+  function backupDB() {
+    const a = document.createElement('a');
+    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent('SMART MIND Database Backup - ' + new Date().toISOString());
+    a.download = `smartmind_backup_${now.getFullYear()}${now.getMonth()+1}${now.getDate()}.txt`;
+    a.click();
+  }
+</script>
+</body>
+</html>

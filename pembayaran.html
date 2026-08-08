@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pembayaran — SMART MIND</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-text"><h5>SMART MIND</h5><span>Bimbingan Belajar</span></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Utama</div>
+    <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <div class="nav-section-title">Akademik</div>
+    <a href="siswa.html"    class="sidebar-link"><span class="icon">👨‍🎓</span> Siswa</a>
+    <a href="tutor.html"    class="sidebar-link"><span class="icon">👨‍🏫</span> Tutor</a>
+    <a href="jadwal.html"   class="sidebar-link"><span class="icon">📅</span> Jadwal</a>
+    <a href="absensi.html"  class="sidebar-link"><span class="icon">✅</span> Absensi</a>
+    <div class="nav-section-title">Keuangan</div>
+    <a href="pembayaran.html" class="sidebar-link active"><span class="icon">💳</span> Pembayaran<span class="badge-count">3</span></a>
+    <a href="gaji.html"     class="sidebar-link"><span class="icon">💰</span> Gaji Tutor</a>
+    <a href="keuangan.html" class="sidebar-link"><span class="icon">📊</span> Laporan Keuangan</a>
+    <div class="nav-section-title">Lainnya</div>
+    <a href="index.html"    class="sidebar-link"><span class="icon">🌐</span> Landing Page</a>
+    <a href="login.html"    class="sidebar-link"><span class="icon">🚪</span> Logout</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar">A</div>
+      <div class="user-info"><strong>Administrator</strong><small>admin@smartmind.id</small></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main-content">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="btn-icon" id="openSidebar">☰</div>
+      <div class="topbar-title"><h4>Pembayaran</h4><p>Manajemen tagihan dan riwayat pembayaran siswa</p></div>
+    </div>
+    <div class="topbar-right">
+      <div class="btn-icon" id="darkModeToggle">🌙</div>
+      <a href="login.html" class="btn-icon">🚪</a>
+    </div>
+  </div>
+  <div class="page-content">
+    <div data-role-section="admin">
+
+      <!-- STAT CARDS -->
+      <div class="row g-3 mb-4">
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon green">💰</div>
+          <div class="stat-info"><h6>Pemasukan Bulan Ini</h6><h3 style="font-size:20px;">12,5Jt</h3><small>↑ 8%</small></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon blue">✅</div>
+          <div class="stat-info"><h6>Lunas</h6><h3>130</h3><small>siswa</small></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon red">🧾</div>
+          <div class="stat-info"><h6>Belum Lunas</h6><h3>18</h3><small style="color:var(--danger);">tagihan pending</small></div>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="card-sm stat-card">
+          <div class="stat-icon yellow">📄</div>
+          <div class="stat-info"><h6>Invoice Bulan Ini</h6><h3>148</h3></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLE PEMBAYARAN -->
+    <div class="table-card">
+      <div class="table-header">
+        <h5>💳 Daftar Pembayaran</h5>
+        <div class="d-flex gap-2 flex-wrap align-items-center">
+          <div class="search-box">
+            <input type="text" id="searchPembayaran" placeholder="Cari siswa / invoice..."/>
+            <span class="search-icon">🔍</span>
+          </div>
+          <select class="form-select" style="width:auto;font-size:13px;padding:7px 12px;" id="filterBulanPay">
+            <option>Juni 2024</option><option>Mei 2024</option><option>April 2024</option>
+          </select>
+          <select class="form-select" style="width:auto;font-size:13px;padding:7px 12px;" id="filterStatusPay">
+            <option value="">Semua Status</option>
+            <option>Lunas</option><option>Belum Lunas</option>
+          </select>
+          <button class="btn-primary-sm btn-export-excel">📥 Excel</button>
+          <button class="btn-primary-sm btn-export-pdf" style="background:#EF4444;">📄 PDF</button>
+          <button class="btn-primary-sm" onclick="openModal('modalTambahBayar')" style="background:var(--success);">
+            ➕ Tambah Pembayaran
+          </button>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table" id="tablePembayaran">
+          <thead>
+            <tr><th>No. Invoice</th><th>Nama Siswa</th><th>Nominal</th><th>Periode</th><th>Status</th><th>Aksi</th></tr>
+          </thead>
+          <tbody id="pembayaranTbody">
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border);">
+        <span style="font-size:13px;color:var(--text-muted);">Menampilkan 1–5 dari 148 invoice</span>
+        <div class="d-flex gap-1">
+          <button style="padding:6px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-size:13px;cursor:pointer;">‹</button>
+          <button style="padding:6px 12px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-size:13px;cursor:pointer;">1</button>
+          <button style="padding:6px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-size:13px;cursor:pointer;">2</button>
+          <button style="padding:6px 12px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-size:13px;cursor:pointer;">›</button>
+        </div>
+      </div>
+    </div>
+
+    <div data-role-section="siswa" style="display:none;">
+      <div style="background:linear-gradient(135deg,#2563EB,#3B82F6);border-radius:16px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <h5 style="color:#fff;font-weight:800;margin:0 0 4px;">Tagihan Siswa</h5>
+          <p style="color:rgba(255,255,255,0.75);font-size:13px;margin:0;">Lihat status pembayaran dan tutor pengajar Anda.</p>
+        </div>
+        <a href="siswa.html" style="padding:8px 18px;border-radius:9px;background:rgba(255,255,255,0.15);color:#fff;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,0.3);">🏠 Dashboard</a>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-info"><h6>Status</h6><h3>Lunas</h3><small>1 invoice</small></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon teal">👨‍🏫</div>
+            <div class="stat-info"><h6>Tutor Anda</h6><h3>Bu Sari</h3><small>Matematika</small></div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon yellow">📅</div>
+            <div class="stat-info"><h6>Periode</h6><h3>Juni 2024</h3><small>Berlangsung</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <h5>🧾 Tagihan Saya</h5>
+          <a href="siswa.html" style="font-size:13px;color:var(--primary);font-weight:600;">Kembali →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>No. Invoice</th><th>Jumlah</th><th>Periode</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><code>INV-20240601-004</code></td><td>Rp 350.000</td><td>Juni 2024</td><td><span class="badge-status badge-lunas">Lunas</span></td></tr>
+              <tr><td><code>INV-20240501-006</code></td><td>Rp 350.000</td><td>Mei 2024</td><td><span class="badge-status badge-lunas">Lunas</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAMBAH PEMBAYARAN -->
+<div class="modal fade" id="modalTambahBayar" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">➕ Tambah Pembayaran</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">No. Invoice (otomatis)</label>
+            <input type="text" class="form-control" id="inputInvoice" readonly style="font-weight:700;"/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Nama Siswa *</label>
+            <select class="form-select" required>
+              <option value="">-- Pilih Siswa --</option>
+              <option>Ahmad Fauzi</option><option>Siti Rahma</option>
+              <option>Budi Hartono</option><option>Rizky Aditya</option><option>Dewi Lestari</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Paket *</label>
+            <select class="form-select" required>
+              <option>Paket SD (Rp 250.000)</option>
+              <option>Paket SMP (Rp 350.000)</option>
+              <option>Paket SMA (Rp 450.000)</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nominal (Rp) *</label>
+            <input type="number" class="form-control" placeholder="350000" required/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Periode *</label>
+            <input type="month" class="form-control" required/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Status *</label>
+            <select class="form-select">
+              <option>Lunas</option><option>Belum Lunas</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Tanggal Bayar</label>
+            <input type="date" class="form-control"/>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Catatan</label>
+            <textarea class="form-control" rows="2" placeholder="Catatan opsional..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn-primary-sm" onclick="simpanPembayaran()">💾 Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL INVOICE -->
+<div class="modal fade" id="modalInvoice" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">🖨️ Cetak Invoice</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="background:#F8FAFC;">
+        <div class="invoice-box" id="invoiceBox">
+          <div class="invoice-header">
+            <div class="invoice-logo">
+              <h3>SMART MIND</h3>
+              <p style="font-size:13px;color:#555;margin:0;">Bimbingan Belajar Profesional</p>
+              <p style="font-size:12px;color:#777;margin:0;">Jl. Pendidikan No. 12 · 0812-3456-7890</p>
+            </div>
+            <div style="text-align:right;">
+              <div style="background:#1565C0;color:#fff;padding:8px 16px;border-radius:8px;font-weight:700;font-size:14px;" id="invBadge">INVOICE</div>
+              <p style="font-size:13px;margin:8px 0 2px;" id="invNumber" class="invoice-number">INV-20240601-001</p>
+              <p style="font-size:12px;color:#777;margin:0;" id="invDate">01 Juni 2024</p>
+            </div>
+          </div>
+          <hr style="border-color:#ddd;"/>
+          <div style="display:flex;gap:32px;margin-bottom:24px;flex-wrap:wrap;">
+            <div>
+              <p style="font-size:12px;color:#888;margin:0 0 4px;">DITAGIHKAN KEPADA:</p>
+              <p style="font-size:16px;font-weight:700;margin:0;" id="invNama">Ahmad Fauzi</p>
+              <p style="font-size:13px;color:#555;margin:0;">Kelas 9 SMP</p>
+              <p style="font-size:13px;color:#555;margin:0;">Orang Tua: Budi Santoso</p>
+            </div>
+            <div>
+              <p style="font-size:12px;color:#888;margin:0 0 4px;">PERIODE:</p>
+              <p style="font-size:14px;font-weight:700;margin:0;">Juni 2024</p>
+            </div>
+          </div>
+          <table class="invoice-table" style="margin-bottom:20px;">
+            <thead>
+              <tr><th>Deskripsi</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Nominal</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="invPaket">Biaya Bimbingan — Paket SMP (Juni 2024)</td>
+                <td style="text-align:center;">1 bulan</td>
+                <td style="text-align:right;" id="invNominal">Rp 350.000</td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:right;font-weight:700;">Total Tagihan</td>
+                <td style="text-align:right;" id="invTotal" class="invoice-total">Rp 350.000</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
+            <div>
+              <p style="font-size:12px;color:#888;margin:0 0 4px;">STATUS PEMBAYARAN:</p>
+              <span id="invStatus" style="background:rgba(34,197,94,0.15);color:#16A34A;padding:6px 16px;border-radius:99px;font-size:13px;font-weight:700;">✅ LUNAS</span>
+            </div>
+            <div style="text-align:right;">
+              <p style="font-size:12px;color:#888;margin:0 0 4px;">Dibuat oleh:</p>
+              <p style="font-size:13px;font-weight:600;margin:0;">Admin SMART MIND</p>
+              <p style="font-size:12px;color:#888;margin:0;" id="invCreated">18 Juni 2024</p>
+            </div>
+          </div>
+          <div style="margin-top:20px;padding:12px 16px;background:#FFF8E1;border-radius:8px;font-size:12px;color:#795548;">
+            <strong>Catatan:</strong> Pembayaran dapat dilakukan via transfer ke rekening BCA 1234567890 a.n SMART MIND atau tunai di kantor. Harap simpan bukti pembayaran ini.
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button class="btn-primary-sm" onclick="printInvoice()">🖨️ Print Invoice</button>
+        <button class="btn-primary-sm btn-export-pdf" style="background:#EF4444;">📄 Download PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDIT PEMBAYARAN -->
+<div class="modal fade" id="modalEditPembayaran" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">✏️ Edit Pembayaran</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditPembayaran">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label">No. Invoice *</label>
+              <input type="text" class="form-control" name="nomor_invoice" readonly/>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Nama Siswa *</label>
+              <input type="text" class="form-control" name="siswa_nama" readonly/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Jumlah (Rp) *</label>
+              <input type="number" class="form-control" name="jumlah" required/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Periode *</label>
+              <input type="text" class="form-control" name="periode" required/>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Status *</label>
+              <select class="form-select" name="status" required>
+                <option value="lunas">Lunas</option>
+                <option value="pending">Pending</option>
+                <option value="overdue">Overdue</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-primary" onclick="saveEditForm('formEditPembayaran', 'modalEditPembayaran', 'sm-pembayaran')">💾 Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+<script src="dataManager.js"></script>
+<script>
+  function cetakInvoice(inv, nama, paket, nominal, tgl) {
+    document.getElementById('invNumber').textContent  = inv;
+    document.getElementById('invNama').textContent    = nama;
+    document.getElementById('invPaket').textContent  = `Biaya Bimbingan — ${paket} (Juni 2024)`;
+    document.getElementById('invNominal').textContent = 'Rp ' + nominal;
+    document.getElementById('invTotal').textContent   = 'Rp ' + nominal;
+    document.getElementById('invDate').textContent    = tgl;
+    const lunas = tgl !== '—';
+    document.getElementById('invStatus').innerHTML    = lunas ? '✅ LUNAS' : '⚠️ BELUM LUNAS';
+    document.getElementById('invStatus').style.background = lunas ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)';
+    document.getElementById('invStatus').style.color      = lunas ? '#16A34A' : '#DC2626';
+    openModal('modalInvoice');
+  }
+
+  function tandaiLunas(btn) {
+    const row = btn.closest('tr');
+    const tglCell = row.cells[4];
+    const statusCell = row.cells[6];
+    const today = new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
+    tglCell.textContent = today;
+    statusCell.innerHTML = '<span class="badge-status badge-lunas">Lunas</span>';
+    btn.remove();
+    showToast('Pembayaran berhasil ditandai lunas!', 'success');
+    // Simulasi notif WA
+    kirimWA('08xxxxxxxxxx', 'Pembayaran Anda bulan Juni 2024 telah kami terima. Terima kasih! - SMART MIND');
+  }
+
+  function simpanPembayaran() {
+    showToast('Data pembayaran berhasil disimpan!', 'success');
+    bootstrap.Modal.getInstance(document.getElementById('modalTambahBayar'))?.hide();
+  }
+
+  // Filter status
+  document.getElementById('filterStatusPay').addEventListener('change', function() {
+    const val = this.value.toLowerCase();
+    document.querySelectorAll('#tablePembayaran tbody tr').forEach(row => {
+      const s = row.cells[6]?.textContent.toLowerCase() || '';
+      row.style.display = (!val || s.includes(val)) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

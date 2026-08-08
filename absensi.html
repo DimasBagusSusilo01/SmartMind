@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Absensi — SMART MIND</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+  <style>
+    /* Custom improvements */
+    .sidebar-link {
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    .sidebar-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%) scaleY(0);
+      width: 3px;
+      height: 24px;
+      background: var(--accent);
+      border-radius: 0 3px 3px 0;
+      transition: all 0.25s ease;
+    }
+    .sidebar-link.active::after {
+      transform: translateY(-50%) scaleY(1);
+    }
+    .sidebar-link:hover {
+      background: rgba(255,255,255,0.06);
+      padding-left: 24px;
+    }
+
+    .stat-card {
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(21,101,192,0.15);
+    }
+    .stat-card .stat-number {
+      font-size: 28px;
+      font-weight: 800;
+      transition: all 0.3s ease;
+    }
+    .stat-card:hover .stat-number {
+      transform: scale(1.05);
+    }
+
+    .radio-group label {
+      transition: all 0.15s ease;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .radio-group label:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    .radio-group input[type="radio"] {
+      accent-color: var(--primary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .table tbody tr.changed {
+      background: rgba(255,193,7,0.12) !important;
+      transition: background 0.3s ease;
+    }
+    .table tbody tr.changed td {
+      border-bottom-color: rgba(255,193,7,0.3);
+    }
+
+    .tab-btn {
+      transition: all 0.25s ease;
+    }
+    .tab-btn:hover:not(.active) {
+      background: rgba(0,0,0,0.04);
+    }
+
+    .badge-status {
+      transition: all 0.2s ease;
+    }
+    .badge-status:hover {
+      transform: scale(1.05);
+    }
+
+    .toast-notification {
+      animation: slideInRight 0.4s ease forwards;
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(60px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .progress-bar-animated {
+      transition: width 0.8s ease;
+    }
+
+    .search-input {
+      transition: all 0.3s ease;
+    }
+    .search-input:focus {
+      width: 250px !important;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(21,101,192,0.12);
+    }
+
+    .bulk-actions {
+      display: none;
+    }
+    .bulk-actions.show {
+      display: flex;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .stat-card .stat-number {
+        font-size: 20px;
+      }
+      .radio-group label {
+        font-size: 11px;
+        padding: 2px 6px;
+      }
+      .topbar-title h4 {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">S</div>
+    <div class="brand-text">
+      <h5>SMART MIND</h5>
+      <span>Bimbingan Belajar</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Utama</div>
+    <a href="dashboard.html" class="sidebar-link"><span class="icon">🏠</span> Dashboard</a>
+    <div class="nav-section-title">Akademik</div>
+    <a href="siswa.html" class="sidebar-link"><span class="icon">👨‍🎓</span> Siswa</a>
+    <a href="tutor.html" class="sidebar-link"><span class="icon">👨‍🏫</span> Tutor</a>
+    <a href="jadwal.html" class="sidebar-link"><span class="icon">📅</span> Jadwal</a>
+    <a href="absensi.html" class="sidebar-link active"><span class="icon">✅</span> Absensi</a>
+    <div class="nav-section-title">Keuangan</div>
+    <a href="pembayaran.html" class="sidebar-link"><span class="icon">💳</span> Pembayaran<span class="badge-count">3</span></a>
+    <a href="gaji.html" class="sidebar-link"><span class="icon">💰</span> Gaji Tutor</a>
+    <a href="keuangan.html" class="sidebar-link"><span class="icon">📊</span> Laporan Keuangan</a>
+    <div class="nav-section-title">Lainnya</div>
+    <a href="index.html" class="sidebar-link"><span class="icon">🌐</span> Landing Page</a>
+    <a href="login.html" class="sidebar-link"><span class="icon">🚪</span> Logout</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="avatar">A</div>
+      <div class="user-info">
+        <strong>Administrator</strong>
+        <small>admin@smartmind.id</small>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="btn-icon" id="openSidebar">☰</div>
+      <div class="topbar-title">
+        <h4>Absensi</h4>
+        <p>Input dan rekap kehadiran siswa &amp; tutor</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="search-box" style="position:relative;">
+        <input type="text" class="search-input form-control" id="searchAbsensi" placeholder="Cari siswa/tutor..." style="width:180px;padding-right:36px;border-radius:10px;font-size:13px;"/>
+        <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);">🔍</span>
+      </div>
+      <button class="btn-icon" id="refreshData" title="Refresh data" style="font-size:16px;">🔄</button>
+      <div class="btn-icon" id="darkModeToggle" style="font-size:18px;">🌙</div>
+      <a href="login.html" class="btn-icon" title="Logout">🚪</a>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- TAB NAV -->
+    <div style="display:flex;gap:4px;background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:5px;width:fit-content;margin-bottom:24px;">
+      <button class="tab-btn active" id="tabSiswaBtn" onclick="switchTab('siswa')" style="padding:9px 24px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:var(--primary);color:#fff;transition:all .2s;">
+        👨‍🎓 Absensi Siswa
+      </button>
+      <button class="tab-btn" id="tabTutorBtn" onclick="switchTab('tutor')" style="padding:9px 24px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-muted);transition:all .2s;">
+        👨‍🏫 Absensi Tutor
+      </button>
+    </div>
+
+    <!-- TAB SISWA -->
+    <div id="tabSiswa">
+
+      <!-- STAT MINI -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-info">
+              <h6>Hadir Hari Ini</h6>
+              <h3 class="stat-number" id="statHadir">42</h3>
+              <small>dari 48 siswa</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon yellow">🤒</div>
+            <div class="stat-info">
+              <h6>Sakit</h6>
+              <h3 class="stat-number" id="statSakit">3</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon blue">📋</div>
+            <div class="stat-info">
+              <h6>Izin</h6>
+              <h3 class="stat-number" id="statIzin">2</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon red">❌</div>
+            <div class="stat-info">
+              <h6>Alpha</h6>
+              <h3 class="stat-number" id="statAlpha">1</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTER & ACTION -->
+      <div class="card-sm mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div class="d-flex gap-2 flex-wrap align-items-center">
+            <input type="date" class="form-control" style="width:auto;font-size:13px;" id="tglAbsensi"/>
+            <select class="form-select" style="width:auto;font-size:13px;" id="filterKelasSiswa">
+              <option value="">Semua Kelas</option>
+              <option>Kelas 7A · Matematika</option>
+              <option>Kelas 8B · IPA</option>
+              <option>Kelas 9A · B. Inggris</option>
+              <option>Kelas 10 IPA · Kimia</option>
+            </select>
+            <select class="form-select" style="width:auto;font-size:13px;" id="filterStatusSiswa">
+              <option value="">Semua Status</option>
+              <option value="hadir">Hadir</option>
+              <option value="izin">Izin</option>
+              <option value="sakit">Sakit</option>
+              <option value="alpha">Alpha</option>
+            </select>
+          </div>
+          <div class="d-flex gap-2 flex-wrap align-items-center">
+            <div class="bulk-actions" id="bulkActions">
+              <button class="btn-primary-sm" style="background:#16A34A;font-size:12px;padding:6px 12px;" onclick="bulkStatus('hadir')">✅ Hadir</button>
+              <button class="btn-primary-sm" style="background:#D97706;font-size:12px;padding:6px 12px;" onclick="bulkStatus('izin')">📋 Izin</button>
+              <button class="btn-primary-sm" style="background:#2563EB;font-size:12px;padding:6px 12px;" onclick="bulkStatus('sakit')">🤒 Sakit</button>
+              <button class="btn-primary-sm" style="background:#DC2626;font-size:12px;padding:6px 12px;" onclick="bulkStatus('alpha')">❌ Alpha</button>
+              <button class="btn-primary-sm" style="background:#6B7280;font-size:12px;padding:6px 12px;" onclick="clearBulk()">✖ Batal</button>
+            </div>
+            <button class="btn-primary-sm btn-export-excel">📥 Export</button>
+            <button class="btn-primary-sm" onclick="simpanAbsensi()" style="background:var(--success);" id="btnSimpanSiswa">
+              💾 Simpan
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE ABSENSI SISWA -->
+      <div class="table-card">
+        <div class="table-header">
+          <h5>✅ Input Absensi Siswa</h5>
+          <div class="d-flex gap-2 align-items-center">
+            <label style="font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer;">
+              <input type="checkbox" id="selectAllSiswa" onchange="toggleAllSiswa()"/> Pilih Semua
+            </label>
+            <span style="font-size:12px;color:var(--text-muted);" id="selectedCountSiswa">0 dipilih</span>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="tableSiswaAbsen">
+            <thead>
+              <tr>
+                <th style="width:32px;"><input type="checkbox" id="selectAllSiswaCheck" onchange="toggleAllSiswa()"/></th>
+                <th>#</th>
+                <th>Nama Siswa</th>
+                <th>Kelas</th>
+                <th>Mata Pelajaran</th>
+                <th>Status Kehadiran</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody id="siswaAbsenBody">
+              <!-- Data akan di-render oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+          <span style="font-size:13px;color:var(--text-muted);" id="siswaCountInfo">Menampilkan 5 siswa</span>
+          <div class="d-flex gap-1">
+            <button class="btn-icon" style="width:32px;height:32px;font-size:13px;" onclick="prevPageSiswa()">‹</button>
+            <span style="padding:4px 12px;border-radius:6px;background:var(--primary);color:#fff;font-size:13px;font-weight:600;" id="siswaPageInfo">1/1</span>
+            <button class="btn-icon" style="width:32px;height:32px;font-size:13px;" onclick="nextPageSiswa()">›</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- REKAP BULANAN SISWA -->
+      <div class="table-card mt-4">
+        <div class="table-header">
+          <h5>📊 Rekap Absensi Bulanan — Siswa</h5>
+          <div class="d-flex gap-2 flex-wrap">
+            <select class="form-select" style="width:auto;font-size:13px;" id="bulanRekapSiswa">
+              <option>Juni 2024</option>
+              <option>Mei 2024</option>
+              <option>April 2024</option>
+            </select>
+            <button class="btn-primary-sm btn-export-excel">📥 Excel</button>
+            <button class="btn-primary-sm btn-export-pdf" style="background:#EF4444;">📄 PDF</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="tableRekapSiswa">
+            <thead>
+              <tr>
+                <th onclick="sortTable(0, 'rekap')" style="cursor:pointer;">Nama Siswa ↑↓</th>
+                <th onclick="sortTable(1, 'rekap')" style="cursor:pointer;">Total Sesi</th>
+                <th style="color:#16A34A;">Hadir</th>
+                <th style="color:#D97706;">Izin</th>
+                <th style="color:#2563EB;">Sakit</th>
+                <th style="color:#DC2626;">Alpha</th>
+                <th>% Hadir</th>
+              </tr>
+            </thead>
+            <tbody id="rekapSiswaBody">
+              <!-- Data akan di-render oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB TUTOR -->
+    <div id="tabTutor" style="display:none;">
+
+      <!-- STAT TUTOR -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon green">✅</div>
+            <div class="stat-info">
+              <h6>Tutor Hadir</h6>
+              <h3 class="stat-number" id="statTutorHadir">10</h3>
+              <small>dari 12 tutor</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon red">❌</div>
+            <div class="stat-info">
+              <h6>Tidak Hadir</h6>
+              <h3 class="stat-number" id="statTutorTidak">2</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-6">
+          <div class="card-sm stat-card">
+            <div class="stat-icon yellow">📋</div>
+            <div class="stat-info">
+              <h6>Total Sesi Hari Ini</h6>
+              <h3 class="stat-number" id="statTutorSesi">7</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE TUTOR -->
+      <div class="table-card">
+        <div class="table-header">
+          <h5>✅ Input Absensi Tutor</h5>
+          <div class="d-flex gap-2 flex-wrap align-items-center">
+            <input type="date" class="form-control" style="width:auto;font-size:13px;" id="tglAbsensiTutor"/>
+            <button class="btn-primary-sm" onclick="simpanAbsensiTutor()" style="background:var(--success);" id="btnSimpanTutor">
+              💾 Simpan
+            </button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="tableTutorAbsen">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama Tutor</th>
+                <th>Mapel</th>
+                <th>Jam Mengajar</th>
+                <th>Kehadiran</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody id="tutorAbsenBody">
+              <!-- Data akan di-render oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- REKAP TUTOR -->
+      <div class="table-card mt-4">
+        <div class="table-header">
+          <h5>📊 Rekap Absensi Bulanan — Tutor</h5>
+          <div class="d-flex gap-2">
+            <select class="form-select" style="width:auto;font-size:13px;" id="bulanRekapTutor">
+              <option>Juni 2024</option>
+              <option>Mei 2024</option>
+            </select>
+            <button class="btn-primary-sm btn-export-excel">📥 Excel</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="tableRekapTutor">
+            <thead>
+              <tr>
+                <th>Nama Tutor</th>
+                <th>Total Jadwal</th>
+                <th style="color:#16A34A;">Hadir</th>
+                <th style="color:#DC2626;">Tidak Hadir</th>
+                <th>% Kehadiran</th>
+                <th>Total Sesi Terhitung</th>
+              </tr>
+            </thead>
+            <tbody id="rekapTutorBody">
+              <!-- Data akan di-render oleh JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const siswaData = [
+  { id: 1, nama: 'Ahmad Fauzi', kelas: '9 SMP', mapel: 'Matematika', status: 'hadir', keterangan: '' },
+  { id: 2, nama: 'Siti Rahma', kelas: '6 SD', mapel: 'Matematika', status: 'hadir', keterangan: '' },
+  { id: 3, nama: 'Budi Hartono', kelas: '12 SMA', mapel: 'Kimia', status: 'sakit', keterangan: 'Demam' },
+  { id: 4, nama: 'Dewi Lestari', kelas: '11 SMA', mapel: 'Fisika', status: 'hadir', keterangan: '' },
+  { id: 5, nama: 'Rizky Aditya', kelas: '8 SMP', mapel: 'IPA', status: 'alpha', keterangan: 'Tanpa keterangan' }
+];
+
+const tutorData = [
+  { id: 1, nama: 'Sari Dewi, S.Pd', mapel: 'Matematika', jam: '13.00–14.30', status: 'hadir', keterangan: '' },
+  { id: 2, nama: 'Doni Pratama, M.Si', mapel: 'IPA/Fisika', jam: '14.00–15.30', status: 'hadir', keterangan: '' },
+  { id: 3, nama: 'Rina Safitri, S.S', mapel: 'B. Inggris', jam: '15.30–17.00', status: 'tidak', keterangan: 'Urusan keluarga' },
+  { id: 4, nama: 'Budi Santoso, S.Si', mapel: 'Kimia', jam: '17.00–18.30', status: 'hadir', keterangan: '' }
+];
+
+const rekapSiswa = [
+  { nama: 'Ahmad Fauzi', total: 20, hadir: 18, izin: 1, sakit: 1, alpha: 0 },
+  { nama: 'Siti Rahma', total: 20, hadir: 20, izin: 0, sakit: 0, alpha: 0 },
+  { nama: 'Budi Hartono', total: 20, hadir: 15, izin: 2, sakit: 3, alpha: 0 },
+  { nama: 'Dewi Lestari', total: 20, hadir: 19, izin: 1, sakit: 0, alpha: 0 },
+  { nama: 'Rizky Aditya', total: 20, hadir: 12, izin: 3, sakit: 2, alpha: 3 }
+];
+
+const rekapTutor = [
+  { nama: 'Sari Dewi', total: 24, hadir: 22, tidak: 2 },
+  { nama: 'Doni Pratama', total: 20, hadir: 20, tidak: 0 },
+  { nama: 'Rina Safitri', total: 22, hadir: 19, tidak: 3 },
+  { nama: 'Budi Santoso', total: 18, hadir: 18, tidak: 0 }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let selectedSiswa = new Set();
+let currentPageSiswa = 1;
+const perPageSiswa = 5;
+let changedSiswa = new Set();
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+function renderSiswaAbsen() {
+  const start = (currentPageSiswa - 1) * perPageSiswa;
+  const end = start + perPageSiswa;
+  const pageData = siswaData.slice(start, end);
+  const tbody = document.getElementById('siswaAbsenBody');
+  tbody.innerHTML = '';
+
+  pageData.forEach((siswa, idx) => {
+    const row = document.createElement('tr');
+    const globalIdx = start + idx;
+    const isChanged = changedSiswa.has(globalIdx);
+    if (isChanged) row.classList.add('changed');
+
+    const checked = selectedSiswa.has(globalIdx) ? 'checked' : '';
+
+    row.innerHTML = `
+      <td><input type="checkbox" class="siswa-check" data-index="${globalIdx}" ${checked} onchange="toggleSiswa(${globalIdx})"/></td>
+      <td>${globalIdx + 1}</td>
+      <td><strong>${siswa.nama}</strong></td>
+      <td>${siswa.kelas}</td>
+      <td>${siswa.mapel}</td>
+      <td>
+        <div class="radio-group d-flex gap-1 flex-wrap">
+          ${['hadir','izin','sakit','alpha'].map(s => `
+            <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;font-weight:600;color:${statusColor(s)};">
+              <input type="radio" name="s${globalIdx}" value="${s}" ${siswa.status === s ? 'checked' : ''}
+                onchange="updateSiswaStatus(${globalIdx}, '${s}')"/>
+              ${capitalize(s)}
+            </label>
+          `).join('')}
+        </div>
+      </td>
+      <td>
+        <input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."
+          value="${siswa.keterangan}" onchange="updateSiswaKeterangan(${globalIdx}, this.value)"/>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  updateSelectedCount();
+  updatePaginationInfo();
+}
+
+function renderTutorAbsen() {
+  const tbody = document.getElementById('tutorAbsenBody');
+  tbody.innerHTML = '';
+
+  tutorData.forEach((tutor, idx) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${idx + 1}</td>
+      <td><strong>${tutor.nama}</strong></td>
+      <td>${tutor.mapel}</td>
+      <td>${tutor.jam}</td>
+      <td>
+        <div class="radio-group d-flex gap-3">
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#16A34A;">
+            <input type="radio" name="t${idx}" value="hadir" ${tutor.status === 'hadir' ? 'checked' : ''}
+              onchange="updateTutorStatus(${idx}, 'hadir')"/> Hadir
+          </label>
+          <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;font-weight:600;color:#DC2626;">
+            <input type="radio" name="t${idx}" value="tidak" ${tutor.status === 'tidak' ? 'checked' : ''}
+              onchange="updateTutorStatus(${idx}, 'tidak')"/> Tidak Hadir
+          </label>
+        </div>
+      </td>
+      <td>
+        <input type="text" class="form-control" style="font-size:12px;padding:5px 10px;" placeholder="Opsional..."
+          value="${tutor.keterangan}" onchange="updateTutorKeterangan(${idx}, this.value)"/>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function renderRekapSiswa() {
+  const tbody = document.getElementById('rekapSiswaBody');
+  tbody.innerHTML = '';
+
+  rekapSiswa.forEach(s => {
+    const pct = Math.round((s.hadir / s.total) * 100);
+    const color = pct >= 85 ? '#22C55E' : pct >= 70 ? '#F59E0B' : '#EF4444';
+    const label = pct >= 85 ? 'Baik' : pct >= 70 ? 'Cukup' : 'Perlu Perhatian';
+
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${s.nama}</strong></td>
+        <td>${s.total}</td>
+        <td><span class="badge-status badge-hadir">${s.hadir}</span></td>
+        <td>${s.izin}</td>
+        <td>${s.sakit}</td>
+        <td>${s.alpha}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="flex:1;height:6px;background:var(--border);border-radius:99px;min-width:60px;">
+              <div class="progress-bar-animated" style="width:${pct}%;height:6px;background:${color};border-radius:99px;"></div>
+            </div>
+            <span style="font-size:12px;font-weight:700;color:${color};min-width:40px;">${pct}%</span>
+          </div>
+          <small style="font-size:10px;color:var(--text-muted);">${label}</small>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function renderRekapTutor() {
+  const tbody = document.getElementById('rekapTutorBody');
+  tbody.innerHTML = '';
+
+  rekapTutor.forEach(t => {
+    const pct = Math.round((t.hadir / t.total) * 100);
+    const color = pct >= 85 ? '#22C55E' : pct >= 70 ? '#F59E0B' : '#EF4444';
+
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${t.nama}</strong></td>
+        <td>${t.total}</td>
+        <td><span style="color:#22C55E;font-weight:700;">${t.hadir}</span></td>
+        <td><span style="color:#DC2626;font-weight:700;">${t.tidak}</span></td>
+        <td><span style="color:${color};font-weight:700;">${pct}%</span></td>
+        <td><span style="font-weight:700;color:var(--primary);">${t.hadir} sesi</span></td>
+      </tr>
+    `;
+  });
+}
+
+// ============================================================
+// STATUS UPDATE FUNCTIONS
+// ============================================================
+function statusColor(status) {
+  const map = { hadir: '#16A34A', izin: '#D97706', sakit: '#2563EB', alpha: '#DC2626' };
+  return map[status] || '#6B7280';
+}
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function updateSiswaStatus(index, status) {
+  siswaData[index].status = status;
+  changedSiswa.add(index);
+  updateStats();
+  highlightRow(index);
+}
+
+function updateSiswaKeterangan(index, value) {
+  siswaData[index].keterangan = value;
+  changedSiswa.add(index);
+  highlightRow(index);
+}
+
+function updateTutorStatus(index, status) {
+  tutorData[index].status = status;
+  updateTutorStats();
+}
+
+function updateTutorKeterangan(index, value) {
+  tutorData[index].keterangan = value;
+}
+
+function highlightRow(index) {
+  const rows = document.querySelectorAll('#siswaAbsenBody tr');
+ 
