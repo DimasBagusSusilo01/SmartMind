@@ -8,12 +8,18 @@ const supabase = window.supabase.createClient(
 );
 
 const kirim = document.getElementById("kirim").addEventListener("click", async () =>{
-    const mapel1 = document.getElementById("m1").value;
-    const mapel2 = document.getElementById("m2").value;
-    const mapel3 = document.getElementById("m3").value;
-    const mapel4 = document.getElementById("m4").value;
-    const mapel5 = document.getElementById("m5").value;
-    const mapel6 = document.getElementById("m6").value;
+    //const mapel1 = document.getElementById("m1").value;
+    //const mapel2 = document.getElementById("m2").value;
+    //const mapel3 = document.getElementById("m3").value;
+    //const mapel4 = document.getElementById("m4").value;
+    //const mapel5 = document.getElementById("m5").value;
+    //const mapel6 = document.getElementById("m6").value;
+
+    const mapel = document.querySelectorAll("#m1", "#m2", "#m3", "#m4", "#m5", "#m6");
+    const listMapel = Array.from(mapel)
+        .map(input => input.value.trim())
+        .filter(val => val !== "");
+    const stringMapel = listMapel.join(", ");
 
     const alamat = document.getElementById("alamat").value;
     const paket = document.getElementById("paket").value;
@@ -23,8 +29,19 @@ const kirim = document.getElementById("kirim").addEventListener("click", async (
     const kelas = document.getElementById("kelas").value;
     const nama_siswa = document.getElementById("nama_siswa").value;
 
-    const { error } = await supabase
-        .from('countries')
-        .insert({ id: 1, name: 'Mordor' })
+    const { data, error } = await supabase
+  .from('form siswa')
+  .insert([
+    {
+      "Nama Lengkap Siswa": document.getElementById("nama").value,
+      "Asal Sekolah": document.getElementById("sekolah").value,
+      "Kelas": document.getElementById("kelas").value,
+      "Paket Belajar": document.getElementById("paket").value,
+      "Mapel": stringMapel, // Hasil string gabungan dimasukkan ke sini
+      "Alamat Lengkap": document.getElementById("alamat").value,
+      "Nama Ortu": document.getElementById("ortu").value,
+      "Nomor WA Ortu": document.getElementById("wa").value
+    }
+  ]);
 });
 
