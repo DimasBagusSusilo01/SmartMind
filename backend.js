@@ -15,7 +15,7 @@ const kirim = document.getElementById("kirim").addEventListener("click", async (
     //const mapel5 = document.getElementById("m5").value;
     //const mapel6 = document.getElementById("m6").value;
 
-    const mapel = document.querySelectorAll("#m1", "#m2", "#m3", "#m4", "#m5", "#m6");
+    const mapel = document.querySelectorAll("#m1, #m2, #m3, #m4, #m5, #m6");
     const listMapel = Array.from(mapel)
         .map(input => input.value.trim())
         .filter(val => val !== "");
@@ -35,7 +35,7 @@ const kirim = document.getElementById("kirim").addEventListener("click", async (
     {
       nama_siswa: document.getElementById("nama_siswa").value,
       asal_sekolah: document.getElementById("nama_sekolah").value,
-      Kelas: document.getElementById("kelas").value,
+      kelas: document.getElementById("kelas").value,
       paket_belajar: document.getElementById("paket").value,
       mapel: stringMapel, // Hasil string gabungan dimasukkan ke sini
       alamat: document.getElementById("alamat").value,
