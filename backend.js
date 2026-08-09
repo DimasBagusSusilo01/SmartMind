@@ -30,17 +30,17 @@ const kirim = document.getElementById("kirim").addEventListener("click", async (
     const nama_siswa = document.getElementById("nama_siswa").value;
 
     const { data, error } = await supabase
-  .from('form siswa')
+  .from('form_siswa')
   .insert([
     {
-      "Nama Lengkap Siswa": document.getElementById("nama").value,
-      "Asal Sekolah": document.getElementById("sekolah").value,
-      "Kelas": document.getElementById("kelas").value,
-      "Paket Belajar": document.getElementById("paket").value,
-      "Mapel": stringMapel, // Hasil string gabungan dimasukkan ke sini
-      "Alamat Lengkap": document.getElementById("alamat").value,
-      "Nama Ortu": document.getElementById("ortu").value,
-      "Nomor WA Ortu": document.getElementById("wa").value
+      nama_siswa: document.getElementById("nama").value,
+      asal_sekolah: document.getElementById("sekolah").value,
+      Kelas: document.getElementById("kelas").value,
+      paket_belajar: document.getElementById("paket").value,
+      mapel: stringMapel, // Hasil string gabungan dimasukkan ke sini
+      alamat: document.getElementById("alamat").value,
+      nama_ortu: document.getElementById("ortu").value,
+      nomor_ortu: document.getElementById("wa").value
     }
   ]);
 });
