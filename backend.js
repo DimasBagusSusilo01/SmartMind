@@ -1,7 +1,30 @@
 const SUPABASE_URL = "https://tlbctoielkmanpkzthwp.supabase.co/rest/v1/";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsYmN0b2llbGttYW5wa3p0aHdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYyMTE0NTIsImV4cCI6MjEwMTc4NzQ1Mn0.9DsFYg6l5MF-Y6NRNGZIP8n_Axl_tV9Fjo1J4hBsYq0";
 
+import { createClient } from '@supabase/supabase-js';
 const supabase = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
 );
+
+const kirim = document.getElementById("kirim").addEventListener("click", async () =>{
+    const mapel1 = document.getElementById("m1").value;
+    const mapel2 = document.getElementById("m2").value;
+    const mapel3 = document.getElementById("m3").value;
+    const mapel4 = document.getElementById("m4").value;
+    const mapel5 = document.getElementById("m5").value;
+    const mapel6 = document.getElementById("m6").value;
+
+    const alamat = document.getElementById("alamat").value;
+    const paket = document.getElementById("paket").value;
+    const nomor_wa = document.getElementById("nomor_wa").value;
+    const nama_ortu = document.getElementById("nama_ortu").value;
+    const nama_sekolah = document.getElementById("nama_sekolah").value;
+    const kelas = document.getElementById("kelas").value;
+    const nama_siswa = document.getElementById("nama_siswa").value;
+
+    const { error } = await supabase
+        .from('countries')
+        .insert({ id: 1, name: 'Mordor' })
+});
+
