@@ -21,26 +21,26 @@ const kirim = document.getElementById("kirim").addEventListener("click", async (
         .filter(val => val !== "");
     const stringMapel = listMapel.join(", ");
 
-    const alamat = document.getElementById("alamat").value;
-    const paket = document.getElementById("paket").value;
-    const nomor_wa = document.getElementById("nomor_wa").value;
-    const nama_ortu = document.getElementById("nama_ortu").value;
-    const nama_sekolah = document.getElementById("nama_sekolah").value;
-    const kelas = document.getElementById("kelas").value;
-    const nama_siswa = document.getElementById("nama_siswa").value;
+    //const alamat = document.getElementById("alamat").value;
+    //const paket = document.getElementById("paket").value;
+    //const nomor_wa = document.getElementById("nomor_wa").value;
+    //const nama_ortu = document.getElementById("nama_ortu").value;
+    //const nama_sekolah = document.getElementById("nama_sekolah").value;
+    //const kelas = document.getElementById("kelas").value;
+    //const nama_siswa = document.getElementById("nama_siswa").value;
 
     const { data, error } = await supabase
   .from('form_siswa')
   .insert([
     {
-      nama_siswa: document.getElementById("nama").value,
-      asal_sekolah: document.getElementById("sekolah").value,
+      nama_siswa: document.getElementById("nama_siswa").value,
+      asal_sekolah: document.getElementById("nama_sekolah").value,
       Kelas: document.getElementById("kelas").value,
       paket_belajar: document.getElementById("paket").value,
       mapel: stringMapel, // Hasil string gabungan dimasukkan ke sini
       alamat: document.getElementById("alamat").value,
-      nama_ortu: document.getElementById("ortu").value,
-      nomor_ortu: document.getElementById("wa").value
+      nama_ortu: document.getElementById("nama_ortu").value,
+      nomor_ortu: document.getElementById("nomor_wa").value
     }
   ]);
 });
