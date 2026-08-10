@@ -7,7 +7,7 @@ const supabase = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-const kirim = document.getElementById("kirim").addEventListener("submit", async () =>{
+const kirim = document.getElementById("kirim").addEventListener("click", async () =>{
     e.preventDefault();  
     //const mapel1 = document.getElementById("m1").value;
     //const mapel2 = document.getElementById("m2").value;
