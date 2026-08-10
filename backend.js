@@ -15,29 +15,41 @@ document.addEventListener("DOMContentLoaded", () => {
     tombolKirim.addEventListener("click", async (e) => {
         e.preventDefault();
 
-        // Ambil elemen input
-        const namaSiswa = document.getElementById("nama_siswa").value.trim();
-        const kelas = document.getElementById("kelas").value;
-        const namaSekolah = document.getElementById("nama_sekolah").value.trim();
-        const namaOrtu = document.getElementById("nama_ortu").value.trim();
-        const nomorWa = document.getElementById("nomor_wa").value.trim();
-        const paket = document.getElementById("paket").value;
-        const alamat = document.getElementById("alamat").value.trim();
+        // 1. Ambil elemen DOM
+        const elNamaSiswa = document.getElementById("nama_siswa");
+        const elKelas = document.getElementById("kelas");
+        const elNamaSekolah = document.getElementById("nama_sekolah");
+        const elNamaOrtu = document.getElementById("nama_ortu");
+        const elNomorWa = document.getElementById("nomor_wa");
+        const elPaket = document.getElementById("paket");
+        const elAlamat = document.getElementById("alamat");
 
-        // Validasi
+        // 2. Ambil nilai (value) & hapus spasi tak terpakai
+        const namaSiswa = elNamaSiswa ? elNamaSiswa.value.trim() : "";
+        const kelas = elKelas ? elKelas.value : "";
+        const namaSekolah = elNamaSekolah ? elNamaSekolah.value.trim() : "";
+        const namaOrtu = elNamaOrtu ? elNamaOrtu.value.trim() : "";
+        const nomorWa = elNomorWa ? elNomorWa.value.trim() : "";
+        const paket = elPaket ? elPaket.value : "";
+        const alamat = elAlamat ? elAlamat.value.trim() : "";
+
+        // Debugging: Buka Console Browser (F12) untuk melihat nilai yang terbaca
+        console.log("Data Input:", { namaSiswa, kelas, namaOrtu, nomorWa, paket });
+
+        // 3. Validasi
         if (!namaSiswa || !kelas || !namaOrtu || !nomorWa || !paket) {
-            alert("Harap lengkapi semua bidang yang wajib diisi (*)");
+            alert("Harap pilih dan isi semua bidang yang wajib (*), termasuk memilih Kelas dan Paket Belajar!");
             return;
         }
 
-        // Ambil mata pelajaran yang dicentang saja
+        // 4. Ambil mata pelajaran yang dicentang saja
         const mapelChecked = document.querySelectorAll(".form-check-input:checked");
         const listMapel = Array.from(mapelChecked)
             .map(input => input.value.trim())
             .filter(val => val !== "");
         const stringMapel = listMapel.join(", ");
 
-        // Loading state
+        // UI Loading
         tombolKirim.disabled = true;
         tombolKirim.innerText = "Mengirim...";
 
@@ -61,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Gagal mengirim data: " + error.message);
             } else {
                 alert("Pendaftaran berhasil!");
-                document.getElementById("formDaftar").reset();
+                const form = document.getElementById("formDaftar");
+                if (form) form.reset();
             }
         } catch (err) {
             console.error(err);
