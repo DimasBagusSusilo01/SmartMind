@@ -7,7 +7,8 @@ const supabase = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-const kirim = document.getElementById("kirim").addEventListener("click", async () =>{
+const kirim = document.getElementById("kirim").addEventListener("submit", async () =>{
+    e.preventDefault();  
     //const mapel1 = document.getElementById("m1").value;
     //const mapel2 = document.getElementById("m2").value;
     //const mapel3 = document.getElementById("m3").value;
@@ -15,7 +16,7 @@ const kirim = document.getElementById("kirim").addEventListener("click", async (
     //const mapel5 = document.getElementById("m5").value;
     //const mapel6 = document.getElementById("m6").value;
 
-    const mapel = document.querySelectorAll("#m1, #m2, #m3, #m4, #m5, #m6");
+    const mapel = document.querySelectorAll(".form-check-input:checked");
     const listMapel = Array.from(mapel)
         .map(input => input.value.trim())
         .filter(val => val !== "");
