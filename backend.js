@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const elNamaSekolah = document.getElementById("nama_sekolah");
         const elNamaOrtu = document.getElementById("nama_ortu");
         const elNomorWa = document.getElementById("nomor_wa");
-        const elPaket = document.getElementById("paket");
         const elAlamat = document.getElementById("alamat");
 
         // Ambil value
@@ -33,7 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const namaSekolah = elNamaSekolah?.value.trim() ?? "";
         const namaOrtu = elNamaOrtu?.value.trim() ?? "";
         const nomorWa = elNomorWa?.value.trim() ?? "";
+        const elPaket = document.getElementById("paket");
+
         const paket = elPaket?.value ?? "";
+        console.log("PAKET =", paket);
+        if (!paket) {
+          alert("Pilih paket belajar terlebih dahulu!");
+          return;}
         const alamat = elAlamat?.value.trim() ?? "";
 
         console.log("Data Input:", {
