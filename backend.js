@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const namaSekolah = elNamaSekolah ? elNamaSekolah.value.trim() : "";
         const namaOrtu = elNamaOrtu ? elNamaOrtu.value.trim() : "";
         const nomorWa = elNomorWa ? elNomorWa.value.trim() : "";
-        const paket = elPaket ? elPaket.value : "";
+        const paket = elPaket ? elPaket.options[elPaket.selectedIndex]?.value : "";
         const alamat = elAlamat ? elAlamat.value.trim() : "";
 
         // Debugging: Buka Console Browser (F12) untuk melihat nilai yang terbaca
