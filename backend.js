@@ -7,42 +7,68 @@ const supabase = window.supabase.createClient(
     SUPABASE_ANON_KEY
 );
 
-const kirim = document.getElementById("kirim").addEventListener("click", async (e) =>{
-    e.preventDefault();  
-    //const mapel1 = document.getElementById("m1").value;
-    //const mapel2 = document.getElementById("m2").value;
-    //const mapel3 = document.getElementById("m3").value;
-    //const mapel4 = document.getElementById("m4").value;
-    //const mapel5 = document.getElementById("m5").value;
-    //const mapel6 = document.getElementById("m6").value;
+document.addEventListener("DOMContentLoaded", () => {
+    const tombolKirim = document.getElementById("kirim");
 
-    const mapel = document.querySelectorAll(".form-check-input:checked");
-    const listMapel = Array.from(mapel)
-        .map(input => input.value.trim())
-        .filter(val => val !== "");
-    const stringMapel = listMapel.join(", ");
+    if (!tombolKirim) return;
 
-    //const alamat = document.getElementById("alamat").value;
-    //const paket = document.getElementById("paket").value;
-    //const nomor_wa = document.getElementById("nomor_wa").value;
-    //const nama_ortu = document.getElementById("nama_ortu").value;
-    //const nama_sekolah = document.getElementById("nama_sekolah").value;
-    //const kelas = document.getElementById("kelas").value;
-    //const nama_siswa = document.getElementById("nama_siswa").value;
+    tombolKirim.addEventListener("click", async (e) => {
+        e.preventDefault();
 
-    const { data, error } = await supabase
-  .from('form_siswa')
-  .insert([
-    {
-      nama_siswa: document.getElementById("nama_siswa").value,
-      asal_sekolah: document.getElementById("nama_sekolah").value,
-      kelas: document.getElementById("kelas").value,
-      paket_belajar: document.getElementById("paket").value,
-      mapel: stringMapel, // Hasil string gabungan dimasukkan ke sini
-      alamat: document.getElementById("alamat").value,
-      nama_ortu: document.getElementById("nama_ortu").value,
-      nomor_ortu: document.getElementById("nomor_wa").value
-    }
-  ]);
+        // Ambil elemen input
+        const namaSiswa = document.getElementById("nama_siswa").value.trim();
+        const kelas = document.getElementById("kelas").value;
+        const namaSekolah = document.getElementById("nama_sekolah").value.trim();
+        const namaOrtu = document.getElementById("nama_ortu").value.trim();
+        const nomorWa = document.getElementById("nomor_wa").value.trim();
+        const paket = document.getElementById("paket").value;
+        const alamat = document.getElementById("alamat").value.trim();
+
+        // Validasi
+        if (!namaSiswa || !kelas || !namaOrtu || !nomorWa || !paket) {
+            alert("Harap lengkapi semua bidang yang wajib diisi (*)");
+            return;
+        }
+
+        // Ambil mata pelajaran yang dicentang saja
+        const mapelChecked = document.querySelectorAll(".form-check-input:checked");
+        const listMapel = Array.from(mapelChecked)
+            .map(input => input.value.trim())
+            .filter(val => val !== "");
+        const stringMapel = listMapel.join(", ");
+
+        // Loading state
+        tombolKirim.disabled = true;
+        tombolKirim.innerText = "Mengirim...";
+
+        try {
+            const { data, error } = await supabase
+              .from('form_siswa')
+              .insert([
+                {
+                  nama_siswa: namaSiswa,
+                  asal_sekolah: namaSekolah,
+                  kelas: kelas,
+                  paket_belajar: paket,
+                  mapel: stringMapel,
+                  alamat: alamat,
+                  nama_ortu: namaOrtu,
+                  nomor_ortu: nomorWa
+                }
+              ]);
+
+            if (error) {
+                alert("Gagal mengirim data: " + error.message);
+            } else {
+                alert("Pendaftaran berhasil!");
+                document.getElementById("formDaftar").reset();
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Terjadi kesalahan sistem.");
+        } finally {
+            tombolKirim.disabled = false;
+            tombolKirim.innerText = "🚀 Kirim Pendaftaran";
+        }
+    });
 });
-
