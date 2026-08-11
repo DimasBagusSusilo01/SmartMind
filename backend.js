@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const namaSekolah = elNamaSekolah?.value.trim() ?? "";
         const namaOrtu = elNamaOrtu?.value.trim() ?? "";
         const nomorWa = elNomorWa?.value.trim() ?? "";
-        const elPaket = document.getElementById("paket");
+        const elPaket = document.getElementById("paket_belajar");
 
         const paket = elPaket?.value ?? "";
         console.log("PAKET =", paket);
