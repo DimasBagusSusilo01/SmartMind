@@ -63,25 +63,25 @@
       <div class="col-md-3 col-6">
         <div class="card-sm stat-card">
           <div class="stat-icon blue">👨‍🎓</div>
-          <div class="stat-info"><h6>Total Siswa</h6><h3>148</h3></div>
+          <div class="stat-info"><h6>Total Siswa</h6><h3 id="totalSiswa">148</h3></div>
         </div>
       </div>
       <div class="col-md-3 col-6">
         <div class="card-sm stat-card">
           <div class="stat-icon green">✅</div>
-          <div class="stat-info"><h6>Aktif</h6><h3>138</h3></div>
+          <div class="stat-info"><h6>Aktif</h6><h3 id="siswaAktif">138</h3></div>
         </div>
       </div>
       <div class="col-md-3 col-6">
         <div class="card-sm stat-card">
           <div class="stat-icon red">⏸️</div>
-          <div class="stat-info"><h6>Non-aktif</h6><h3>10</h3></div>
+          <div class="stat-info"><h6>Non-aktif</h6><h3 id="siswaNonAktif">10</h3></div>
         </div>
       </div>
       <div class="col-md-3 col-6">
         <div class="card-sm stat-card">
           <div class="stat-icon yellow">🆕</div>
-          <div class="stat-info"><h6>Baru Bulan Ini</h6><h3>5</h3></div>
+          <div class="stat-info"><h6>Baru Bulan Ini</h6><h3 id="siswabaru">5</h3></div>
         </div>
       </div>
     </div>
@@ -411,5 +411,6 @@
     bootstrap.Modal.getInstance(document.getElementById('modalTambahSiswa'))?.hide();
   }
 </script>
+<script type="module" src="backend_sis.js"></script>
 </body>
 </html>
